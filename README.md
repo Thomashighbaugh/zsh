@@ -5,6 +5,7 @@ My zsh configuration, part of my [dotfiles](https://github.com/dotfiles) but too
 ## Plugins
 
 I have included plugins as submodules (see I can use them fine, just having my dotfiles pull in repos like this and still symlink them makes zero sense). The included plugins are listed below:
+
 | Name | Function |
 |------x----------|
 | alias-tips | reminds you of aliases you've made |
