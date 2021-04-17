@@ -1,0 +1,45 @@
+[submodule "zsh-syntax-highlighting"]
+	path = zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "almostontop"]
+	path = almostontop
+	url = https://github.com/Valiev/almostontop
+[submodule "alias-tips"]
+	path = alias-tips
+	url = https://github.com/djui/alias-tips
+[submodule "plugins/alias-tips"]
+	path = plugins/alias-tips
+	url = https://github.com/djui/alias-tips
+[submodule "plugins/almostontop"]
+	path = plugins/almostontop
+	url = https://github.com/Valiev/almostontop
+[submodule "plugins/zsh-syntax-highlighting"]
+	path = plugins/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "plugins/zsh-history-substring-search"]
+	path = plugins/zsh-history-substring-search
+	url = https://github.com/zsh-users/zsh-history-substring-search.git
+[submodule "plugins/zsh-mouse"]
+	path = plugins/zsh-mouse
+	url = https://github.com/ashleyh/zsh-mouse
+[submodule "plugins/zsh-autosuggestions"]
+	path = plugins/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions
+[submodule "plugins/zsh-autoenv"]
+	path = plugins/zsh-autoenv
+	url = https://github.com/Tarrasch/zsh-autoenv
+[submodule "plugins/zsh-auto-nvm"]
+	path = plugins/zsh-auto-nvm
+	url = https://github.com/manlao/zsh-auto-nvm
+[submodule "plugins/zsh-async"]
+	path = plugins/zsh-async
+	url = https://github.com/mafredri/zsh-async
+[submodule "plugins/zsh-256color"]
+	path = plugins/zsh-256color
+	url = https://github.com/chrissicool/zsh-256color
+[submodule "plugins/colorize"]
+	path = plugins/colorize
+	url = https://github.com/zpm-zsh/colorize
+[submodule "plugins/auto-ls"]
+	path = plugins/auto-ls
+	url = https://github.com/desyncr/auto-ls
