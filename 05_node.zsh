@@ -1,6 +1,4 @@
-function ne() {
-    ./node_modules/.bin/$@
-}
+
 alias yarn-local-up="yarn upgrade-interactive --latest"
 
 alias npmup="npm update --global"

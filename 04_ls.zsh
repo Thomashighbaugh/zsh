@@ -1,3 +1,8 @@
+setopt longlistjobs
+    # Case insensitive globbing
+setopt auto_list     # Automatically list choices on ambiguous completion
+
+
 if [[ -x $(which lsd) ]]; then
 	alias rls=$(which lsd)
 	alias ls='lsd -h --color=auto '

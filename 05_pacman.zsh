@@ -1,6 +1,3 @@
-#!/usr/bin/env bash
-# Arch-based (and Kaos Linux) Package Management
-##########################################################################
 
 alias pacman='pacman --color=auto '
 alias yay='yay --color=auto '
