@@ -3,10 +3,6 @@
 ################################################################################
 
 setopt notify
-
-
-
-
 setopt allexport
 
 setopt auto_menu     # Automatically use menu completion
@@ -26,7 +22,7 @@ setopt rcquotes
 
 
 setopt nocheckjobs     # Don't warn about running processes when exiting
-      # if only directory path is entered, cd there.
+# if only directory path is entered, cd there.
 
 ## Personal Email ##############################################################
 export EMAIL="thighbaugh@zoho.com"
@@ -43,7 +39,7 @@ export LAUNCHER='rofi  -show drun -theme ~/.config/awesome/configuration/appmenu
 export MOZ_X11_EG=1
 
 
-## OS ##############################################################
+# OS ##############################################################
 export OS=$(uname -s)
 export ARCH=$(uname -m)
 ## DATE  ###########################################################
