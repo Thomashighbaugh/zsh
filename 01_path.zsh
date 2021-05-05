@@ -71,4 +71,4 @@ fi
 
 ## Nim ##########################################################################################
 
-export PATH=/home/tlh/.nimble/bin:$PATH
+export PATH="$HOME/.nimble/bin"
