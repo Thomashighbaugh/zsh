@@ -5,7 +5,10 @@ if [[ $mydir = . ]]; then
 fi
 dest=$HOME
 echo My Directory: $mydir
-cp $HOME/.zshenv $HOME/.zshenv.old
-cp $HOME/.zshrc $HOME/.zshrc.old
+#cp $HOME/.zshenv $HOME/.zshenv.old
+#cp $HOME/.zshrc $HOME/.zshrc.old
+
+git submodule update --init
+
 echo "source $mydir/env" >$HOME/.zshenv
 echo "source $mydir/rc" >$HOME/.zshrc
