@@ -1,1 +1,0 @@
-alias free='free -m'
