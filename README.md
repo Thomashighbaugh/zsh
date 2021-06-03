@@ -1,199 +1,46 @@
-dotzsh
-======
+# ZSH
 
-dotzsh is a configuration framework for [Zsh][1] that enriches the command line
-interface environment with sane defaults, aliases, functions, auto completion,
-and prompt themes.
+My zsh configuration, part of my [dotfiles](https://github.com/dotfiles) but too big and expansive to symlink from the install script/deserves its own repository.
 
-dotzsh strives to be platform and version independent, some functionality may be
-lost when running under older versions of zsh, but it should degrade cleanly and
-allow you to use the same setup on multiple machines of differing OS's without
-problems.
+## Plugins
 
-Installation
-------------
+I have included plugins as submodules (see I can use them fine, just having my dotfiles pull in repos like this and still symlink them makes zero sense). The included plugins are listed below:
 
-  1. Clone the repository:
-
-        git clone --recursive https://github.com/dotphiles/dotzsh.git ~/.zsh
-
-  2. Create a new Zsh configuration by copying the Zsh configuration file
-     templates provided:
-
-        for rcfile in ~/.zsh/templates/z{shenv,shrc,login,logout}; do
-          cp -f $rcfile ~/.$rcfile:t
-        done
-
-  3. Set Zsh as your default shell:
-
-        chsh -s /bin/zsh
-
-  4. Open a new Zsh terminal window or tab.
-
-### Mac OS X
-
-If you have administrator privileges, you must fix an Apple-introduced problem
-in Mac OS X 10.5 Leopard by executing the following command, or BASH and Zsh
-will have the wrong `PATH` when executed non-interactively.
-
-    sudo chmod ugo-x /usr/libexec/path_helper
-
-`path_helper` is intended to make it easier for installers to add new paths to
-the environment without having to edit shell configuration files by adding
-a file with a path to the */etc/paths.d* directory.
-
-Unfortunately, `path_helper` always reads paths from */etc/paths* set by Apple
-then paths from */etc/paths.d* set by third party installers, and lastly paths
-from the `PATH` environment variable set by the parent process, which
-ultimately is set by the user with `export PATH=...` Thus, it reorders path
-priorities, and user */bin* directories meant to override system */bin*
-directories end up at the tail of the array.
-
-### Troubleshooting
-
-If you are not able to find certain commands after switching to *dotzsh*,
-modify the `PATH` variable in *~/.zshenv* then open a new Zsh terminal
-window or tab.
-
-Usage
------
-
-dotzsh has many features disabled by default. Read the source code and
-accompanying README files to learn of what is available.
-
-### Modules
-
-  1. Browse [~/.zsh/modules/][10] to see what is available.
-  2. Load the modules you need in *~/.zshrc* then open a new Zsh terminal window
-     or tab.
-
-### Local Modules
-
-  1. Add your own modules to *~/.zsh.local/modules/* to override existing modules.
-  2. Load the modules you need in *~/.zshrc* then open a new Zsh terminal window
-     or tab.
-
-### Themes
-
-  1. For a list of themes, type `prompt -l`.
-  2. To preview a theme, type `prompt -p name`.
-  3. Load the theme you like in *~/.zshrc* then open a new Zsh terminal window
-     or tab.
-
-### Troubleshooting
-
-  To enable debug timing, add the following to *zshrc*
-
-     zstyle ':dotzsh:load' timing 'yes'
-     zstyle ':dotzsh:module:*' timing 'yes'
-
-  `dzinfo` will show which module are loaded and how long they took to start.
+| Name                         | Function                                                                   |
+| ---------------------------- | -------------------------------------------------------------------------- |
+| alias-tips                   | reminds you of aliases you've made                                         |
+| almostontop                  | clears the terminal with new command output                                |
+| auto-ls                      | shows the directory's content you just `cd`'ed into                        |
+| colorize                     | provides color to the output of various programs                           |
+| zsh-256color                 | enables 256 format in zsh                                                  |
+| zsh-async                    | async operations in zsh                                                    |
+| zsh-auto-nvm                 | if `.nvmrc` is present, it automatically switches to the specified version |
+| zsh-autoenv                  | `.env` file configuration automatically!                                   |
+| zsh-autosuggestions          | suggests the command you are typing, politely                              |
+| zsh-history-substring-search | makes finding commands you've entered faster                               |
+| zsh-mouse                    | mouse support for zsh                                                      |
+| zsh-syntax-highlighting      | syntax highlighting                                                        |
 
 
-      dotzsh 0.2.0 on darwin12.2.0 running zsh 5.0.0
+## Structure
+This reposiotry conforms to an organization method often seen in larger system configurations, like fontconfig, which are composed of numbered files, the numbers not indicating their ordinal ranking but instead being the indicator, primarily, of general pole position (to use an analogy) or the batch of files being looped through by the statement grafting them on to the shell, loops contained within the `rc` and `env` files. 
 
-     module                            global local   aliases colour  startup
-     ======                            ====== =====   ======= ======  =======
-     gnu-utility                          yes no          yes yes        5 ms
-     environment                          yes no          yes yes        9 ms
-     terminal                             yes no          yes yes        6 ms
-     editor                               yes no          yes yes        7 ms
-     history                              yes no          yes yes        3 ms
-     utility                              yes no          yes yes       19 ms
-     completion                           yes no          yes yes       29 ms
-     directory                            yes no          yes yes        3 ms
-     ssh                                  yes no          yes yes       34 ms
-     gnupg                                yes no          yes yes       33 ms
-     osx                                  yes no          yes yes        3 ms
-     archive                              yes no          yes yes        2 ms
-     git                                  yes no          yes yes        4 ms
-     yum                                   no no          yes yes        3 ms
-     tmux                                 yes no          yes yes        4 ms
-     syntax-highlighting                  yes no          yes yes       14 ms
-     perl                                 yes no          yes yes        7 ms
-     rsync                                yes no          yes yes        7 ms
-     grc                                  yes no          yes yes        3 ms
-     node                                 yes no          yes yes        3 ms
-     mercurial                            yes no          yes yes        3 ms
-     notify                               yes no          yes yes        3 ms
-     dotsync                              yes no          yes yes        6 ms
-     fasd                                 yes no          yes yes       12 ms
-     taskwarrior                          yes no          yes yes        2 ms
-     history-substring-search             yes no          yes yes        6 ms
-     theme                                yes no          yes yes       28 ms
-                                                                      =======
-                                                   modules Loaded in   273 ms
-                                                    dotzsh Loaded in   359 ms
+Looping as means of sourcing these files has the orimary advantage of liberating the author from having to maintain a list of manually sourced files that one can easily forget some member there of, or leave a deleted member on prompting various errors of a particular order of painful to debug. 
 
-  `dzD` will enable ZTRACE and reload *zshrc*
+It works as such: 
+- the `sh` and `env` files point to the configuration's components via loops, which are pointed to by `.zshrc` ad `.zshenv` files in their typical locations to tthis repos location
+- shell will start at 0 and work its way through the numbers (never exceeding 100, at least not yet).
+- Cases with multiple files per number will be sourced alphabetically 
 
-  `dzd` will disable XTRACE and reload *zshrc*
+### Topical Files
 
-  `dzs` will reload *zshrc*
+Additionally, the *topical* focus of the files is more in line with the idea of modularity that makes object oreintation such a particular favorite of mine, and also files from repositories conforming to this style should lend themselves to being easily grafted unto your own configuation. 
 
-Customization
--------------
+This is in direct contrast to the functionality > topical means I had used prior and while the taxonomy is arbitrary, so far it has proven much easier to conceptualize (thus easier to piece together in one's head) and is more easily examined when debugging is necessary. 
 
-The project is managed via [Git][3]. It is highly recommend that you commit
-your changes and push them to [GitHub][4] to not lose them. If you do not know
-how to use Git, follow this [tutorial][5] and bookmark this [reference][6].
+### Twilight of My Multishell Configuration
+Due to differences in how the shells I use (`sh`, `bash`, `zsh`) render various commands and handle various structures, I am moving away from a more multishell configuration and towards one specific to `zsh` (and soon likely a specific `bash` configuration even if it means reusing the code) primarily to enable access to the zsh specific features more reliably and due to the ease of sharing files between separate configurations enabled by the *modular*, *topical* method herein expressed. 
 
-### Completions
+## Credit Where Its Due
 
-Submit program completions to the [zsh-completions][7] project. The dotzsh
-completions directory will be synchronized against it.
-
-### Resources
-
-The [Zsh Reference Card][8] is indispensable.
-
-Compatibility
--------------
-
-dotzsh has been tested and developed to work on the following
-
-  - MacOSX >= 10.6
-  - Enterprise Linux >= 5
-  - Debian >= 6
-  - Ubuntu >= 11
-  - ArchLinux >= 2011.08.19
-  - OpenSolaris >= 11
-
-If you use an older version or a different OS and see problems please raise an
-issue on the [issue tracker][9]
-
-License
--------
-
-Copyright (c) 2012 [dotzsh contributers][11]
-
-Permission is hereby granted, free of charge, to any person obtaining a copy of
-this software and associated documentation files (the "Software"), to deal in
-the Software without restriction, including without limitation the rights to
-use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do
-so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
-
-[1]: http://www.zsh.org
-[2]: https://raw.github.com/dotphiles/dotzsh/master/themes/dotphiles/screenshots/dotphiles.png "dotphiles theme"
-[3]: http://git-scm.com
-[4]: https://github.com
-[5]: http://gitimmersion.com
-[6]: http://gitref.org
-[7]: https://github.com/zsh-users/zsh-completions
-[8]: http://www.bash2zsh.com/zsh_refcard/refcard.pdf
-[9]: https://github.com/dotphiles/dotzsh/issues
-[10]: https://github.com/dotphiles/dotzsh/tree/master/modules
-[11]: https://github.com/dotphiles/dotzsh/graphs/contributors
-
+[inspired by zshkit](http://wiki.github.com/bkerley/zshkit)
