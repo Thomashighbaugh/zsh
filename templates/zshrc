@@ -1,15 +1,8 @@
-#
-# dotzsh : https://github.com/dotphiles/dotzsh
-#
 # Sets dotzsh options.
-#
-# Authors:
-#   Ben O'Hara <bohara@gmail.com>
-#
 
 # debug: see with `dzinfo`
-##zstyle ':dotzsh:load' timing 'yes'
-##zstyle ':dotzsh:module:*' timing 'yes'
+zstyle ':dotzsh:load' timing 'yes'
+zstyle ':dotzsh:module:*' timing 'yes'
 
 # Set the Zsh modules to load (man zshmodules).
 zstyle ':dotzsh:load' zmodule 'stat'
@@ -39,9 +32,9 @@ zstyle ':dotzsh:module:*' case-sensitive 'no'
 
 ### Environment module
 # Set which PAGER to use less or more
-##zstyle ':dotzsh:module:environment' pager 'less'
+zstyle ':dotzsh:module:environment' pager 'less'
 # Enable mouse scrolling in less, add the following to *zshrc*
-##zstyle ':dotzsh:module:environment:pager:less' mousescroll 'false'
+zstyle ':dotzsh:module:environment:pager:less' mousescroll 'true'
 
 ### Terminal Module
 # Auto set the tab and window titles.
@@ -53,7 +46,7 @@ zstyle ':dotzsh:module:editor' keymap 'emacs'
 # Set EDITOR to 'emacs' or 'vi'.
 zstyle ':dotzsh:module:editor' editor 'vi'
 # Auto convert .... to ../..
-#zstyle ':dotzsh:module:editor' dot-expansion 'yes'
+zstyle ':dotzsh:module:editor' dot-expansion 'yes'
 
 ### Utility Module
 # Disable `diff` highlighting
@@ -65,37 +58,22 @@ zstyle ':dotzsh:module:editor' editor 'vi'
 
 ### Completion module
 # Expand global aliases automatically
-#zstyle ':dotzsh:module:completion' expand-global-aliases 'yes'
+zstyle ':dotzsh:module:completion' expand-global-aliases 'yes'
 
 ### SSH module
 zstyle ':dotzsh:module:ssh:agent' forwarding 'yes'
-#zstyle ':dotzsh:module:ssh:aliases' hosts 'yes'
+zstyle ':dotzsh:module:ssh:aliases' hosts 'yes'
 ##zstyle ':dotzsh:module:ssh:agent' identities 'id_rsa' 'id_rsa2' 'id_github'
 
 ### GNUPG module
 # Enable ssh-agent protocol emulation for gpg-agent
-##zstyle ':dotzsh:module:gnupg' agent-ssh-support 'yes'
+zstyle ':dotzsh:module:gnupg' agent-ssh-support 'yes'
 
-### OSX module
-# Add aliases for Applications
-##zstyle ':dotzsh:module:osx' launcher 'yes'
-# Open/Resume temrinal in correct dir
-##zstyle ':dotzsh:module:osx' terminal-resume 'yes'
 
-### Git module
-# Disable all git aliases
-##zstyle ':dotzsh:module:git' aliases 'no'
-
-### TMUX module
-# Auto start a session when Zsh is launched.
-# Setting it to 'local' only starts a session for local terminals.
-# Setting it to 'remote' only starts a session for SSH connections.
-##zstyle ':dotzsh:module:tmux' auto-start 'no'
-#zstyle ':dotzsh:module:tmux:aliases' tmuxinator 'yes'
 
 ### Syntax Highlighting module
-#zstyle ':dotzsh:module:syntax-highlighting' highlighters 'main' 'brackets' 'pattern' \
-#  'cursor' 'root' \
+zstyle ':dotzsh:module:syntax-highlighting' highlighters 'main' 'brackets' 'pattern' \
+  'cursor' 'root' 
 
 ### Theme module
 # Set default theme to load.
@@ -110,5 +88,6 @@ zstyle ':dotzsh:module:theme' theme 'dotphiles'
 ### Load dotzsh
 source "$DOTZSH/init.zsh"
 
-### Customize to your needs...
-
+## Load System Wide Configurations
+source /etc/zsh/zshrc
+source /etc/zsh/zimrc
