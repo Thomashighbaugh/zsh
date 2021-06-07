@@ -43,3 +43,21 @@
 [submodule "plugins/auto-ls"]
 	path = plugins/auto-ls
 	url = https://github.com/desyncr/auto-ls
+[submodule "plugins/syntax-highlighting"]
+	path = plugins/syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "plugins/history-substring-search"]
+	path = plugins/history-substring-search
+	url = https://github.com/zsh-users/zsh-history-substring-search.git
+[submodule "plugins/mouse"]
+	path = plugins/mouse
+	url = https://github.com/ashleyh/zsh-mouse
+[submodule "plugins/autosuggest"]
+	path = plugins/autosuggest
+	url = https://github.com/zsh-users/zsh-autosuggestions
+[submodule "plugins/async"]
+	path = plugins/async
+	url = https://github.com/mafredri/zsh-async
+[submodule "plugins/256-colors"]
+	path = plugins/256-colors
+	url = https://github.com/chrissicool/zsh-256color
