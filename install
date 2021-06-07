@@ -1,11 +1,5 @@
-#!/bin/zsh
-
-for rcfile in ~/.z{shenv,shrc,login,logout}; 
-do mv $rcfile ~/.zsh.backups  
-    done
-
-
-
-for rcfile in ~/.zsh/templates/z{shenv,shrc,login,logout}; 
-do cp -fv $rcfile ~/.$rcfile:t 
-    done
+#!/usr/bin/env zsh
+cp $HOME/.zshenv $HOME/.zshenv.old
+cp $HOME/.zshrc $HOME/.zshrc.old
+echo "source $HOME/.zsh/env" >$HOME/.zshenv
+echo "source $HOME/.zsh/rc" >$HOME/.zshrc

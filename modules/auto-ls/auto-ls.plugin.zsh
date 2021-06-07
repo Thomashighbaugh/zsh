@@ -1,1 +1,0 @@
-auto-ls.zsh

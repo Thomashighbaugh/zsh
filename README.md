@@ -1,32 +1,46 @@
-# zsh configuration
+# ZSH
+
+My zsh configuration, part of my [dotfiles](https://github.com/dotfiles) but too big and expansive to symlink from the install script/deserves its own repository.
+
+## Plugins
+
+I have included plugins as submodules (see I can use them fine, just having my dotfiles pull in repos like this and still symlink them makes zero sense). The included plugins are listed below:
+
+| Name                         | Function                                                                   |
+| ---------------------------- | -------------------------------------------------------------------------- |
+| alias-tips                   | reminds you of aliases you've made                                         |
+| almostontop                  | clears the terminal with new command output                                |
+| auto-ls                      | shows the directory's content you just `cd`'ed into                        |
+| colorize                     | provides color to the output of various programs                           |
+| zsh-256color                 | enables 256 format in zsh                                                  |
+| zsh-async                    | async operations in zsh                                                    |
+| zsh-auto-nvm                 | if `.nvmrc` is present, it automatically switches to the specified version |
+| zsh-autoenv                  | `.env` file configuration automatically!                                   |
+| zsh-autosuggestions          | suggests the command you are typing, politely                              |
+| zsh-history-substring-search | makes finding commands you've entered faster                               |
+| zsh-mouse                    | mouse support for zsh                                                      |
+| zsh-syntax-highlighting      | syntax highlighting                                                        |
 
 
-## Introduction
-This configuration utilizes a modular approach to assembling a collection of zsh configurations that are arranged in a modular format where the various topical elements of the configuration have been placed within their own files, within the `modules` subdirectory specifically. This enables easier maintenance to the configuration and allows me to add in plugins, portions of other configurations and more without needing a plugin manager or other third party tool of dubious quality. 
+## Structure
+This reposiotry conforms to an organization method often seen in larger system configurations, like fontconfig, which are composed of numbered files, the numbers not indicating their ordinal ranking but instead being the indicator, primarily, of general pole position (to use an analogy) or the batch of files being looped through by the statement grafting them on to the shell, loops contained within the `rc` and `env` files. 
 
+Looping as means of sourcing these files has the orimary advantage of liberating the author from having to maintain a list of manually sourced files that one can easily forget some member there of, or leave a deleted member on prompting various errors of a particular order of painful to debug. 
 
-## Interconnection to my Dotfiles Ecosystem 
+It works as such: 
+- the `sh` and `env` files point to the configuration's components via loops, which are pointed to by `.zshrc` ad `.zshenv` files in their typical locations to tthis repos location
+- shell will start at 0 and work its way through the numbers (never exceeding 100, at least not yet).
+- Cases with multiple files per number will be sourced alphabetically 
 
-This repository and its configurations are installed on my system via my [dotfiles](https://github.com/Thomashighbaugh/dotfiles) installation script and are intended to function within that overall ecosystem. As such, the template `zshenv` file calls my `.profile` and `.aliases` files that are where my shell agnostic configurations are stored. You probably want to remove these source statements, or make your own variants I suppose, in order to integrate this configuration best into your environment if you intend to bring it in alone. 
+### Topical Files
 
-## Installation
-To install the repository locally, first backup any files that make up your current configuration such that they are not lost as you may want to add pieces there of back in or hate this configuration's work flow entirely and will thus have a way of returning to your current configuration. Once complete you can install using two methods, outlined below.
+Additionally, the *topical* focus of the files is more in line with the idea of modularity that makes object oreintation such a particular favorite of mine, and also files from repositories conforming to this style should lend themselves to being easily grafted unto your own configuation. 
 
-### Method One: Just the ZSH
-If you have no need for any of my other configurations and don't like using a TUI menu to select configurations to install then the process of obtaining this configuration locally is:
-```bash
-git clone https://github.com/Thomashighbaugh/zsh .zsh
+This is in direct contrast to the functionality > topical means I had used prior and while the taxonomy is arbitrary, so far it has proven much easier to conceptualize (thus easier to piece together in one's head) and is more easily examined when debugging is necessary. 
 
-sh .zsh/install 
+### Twilight of My Multishell Configuration
+Due to differences in how the shells I use (`sh`, `bash`, `zsh`) render various commands and handle various structures, I am moving away from a more multishell configuration and towards one specific to `zsh` (and soon likely a specific `bash` configuration even if it means reusing the code) primarily to enable access to the zsh specific features more reliably and due to the ease of sharing files between separate configurations enabled by the *modular*, *topical* method herein expressed. 
 
-```
+## Credit Where Its Due
 
-### Method Two: Dotfiles in General
-
-For those who want a more full experience of my configuration, including more programs than I even want to type out and a fancy menu to select what you want (for Arch based distros only, sorry to those using other systems stay tuned I might switch to Void Linux or Gentoo in the future as I tire of Systemd) 
-
-## Credit Where It Is Due
-
-based on the zsh configuration [dotzsh by dotphiles](https://github.com/dotphiles/dotzsh)
-
-All plugins are the property of their respective owners, see the licenses within their subrepos for more. 
+[inspired by zshkit](http://wiki.github.com/bkerley/zshkit)

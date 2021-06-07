@@ -1,0 +1,8 @@
+autoload -Uz compinit
+compinit
+
+autoload -Uz colors
+colors
+for f in $HOME/.zsh/plugins/**/*.zsh; do
+source $f
+done
