@@ -23,6 +23,6 @@ for file in $ZDOTDIR/configuration/*.zsh; do
 done
 
 # Load all the files in $ZDOTDIR
-for file in $ZDOTDIR/configuration/*.zsh; do
-  . $file
+for file in $ZDOTDIR/plugins/**/*.zsh; do
+  source $file
 done

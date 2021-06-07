@@ -21,7 +21,7 @@ ln -s ~/.zsh/zshrc ~/.zshrc
 echo "Changing default shell to Zsh (will require password)..."
 chsh -s `which zsh`
 
-echo "\n \033[0;32mConfiguration installed. (Remember to set your PATH in ~/.zsh.d/10_exports.zsh.)"
+echo "Configuration installed. (Remember to set your PATH in ~/.zsh.d/10_exports.zsh.)"
 
-echo "\n \033[0;32mStarting Zsh."
+echo "Starting Zsh."
 /usr/bin/env zsh

@@ -1,0 +1,36 @@
+[submodule "plugins/zsh-history-substring-search"]
+	path = plugins/zsh-history-substring-search
+	url = https://github.com/zsh-users/zsh-history-substring-search.git
+[submodule "plugins/zsh-syntax-highlighting"]
+	path = plugins/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "plugins/zsh-completions"]
+	path = plugins/zsh-completions
+	url = https://github.com/zsh-users/zsh-completions.git
+[submodule "plugins/auto-fu"]
+	path = plugins/auto-fu
+	url = https://github.com/hchbaw/auto-fu.zsh.git
+[submodule "plugins/fasd"]
+	path = plugins/fasd
+	url = https://github.com/clvv/fasd.git
+[submodule "plugins/zaw"]
+	path = plugins/zaw
+	url = https://github.com/zsh-users/zaw
+[submodule "plugins/autoenv"]
+	path = plugins/autoenv
+	url = https://github.com/kennethreitz/autoenv
+[submodule "plugins/Aliaster"]
+	path = plugins/Aliaster
+	url = https://github.com/wesalvaro/Aliaster.git
+[submodule "plugins/zsh-autosuggestions"]
+	path = plugins/zsh-autosuggestions
+	url = https://github.com/tarruda/zsh-autosuggestions.git
+[submodule "plugins/docker-zsh-completion"]
+	path = plugins/docker-zsh-completion
+	url = https://github.com/felixr/docker-zsh-completion.git
+[submodule "plugins/alias-tips"]
+	path = plugins/alias-tips
+	url = https://github.com/djui/alias-tips
+[submodule "plugins/alt-and-select"]
+	path = plugins/alt-and-select
+	url = https://github.com/raisty/alt-and-select
