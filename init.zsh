@@ -45,3 +45,7 @@ zstyle -a ':dotzsh:load' dzmodule 'dzmodules'
 dzmodload "$dzmodules[@]"
 unset dzmodules
 
+for file in ~/.zsh/modules/**/*.zsh; 
+do source $file  
+    done
+    

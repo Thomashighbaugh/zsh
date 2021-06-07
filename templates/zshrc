@@ -30,9 +30,10 @@ zstyle ':dotzsh:module:*' aliases 'yes'
 # Set case-sensitivity for completion, history lookup, etc.
 zstyle ':dotzsh:module:*' case-sensitive 'no'
 
+export PAGER="less"
 ### Environment module
 # Set which PAGER to use less or more
-zstyle ':dotzsh:module:environment' pager 'less'
+zstyle ':dotzsh:module:environment' pager $PAGER
 # Enable mouse scrolling in less, add the following to *zshrc*
 zstyle ':dotzsh:module:environment:pager:less' mousescroll 'true'
 
@@ -72,21 +73,20 @@ zstyle ':dotzsh:module:gnupg' agent-ssh-support 'yes'
 
 
 ### Syntax Highlighting module
-zstyle ':dotzsh:module:syntax-highlighting' highlighters 'main' 'brackets' 'pattern' \
-  'cursor' 'root' 
+zstyle ':dotzsh:module:syntax-highlighting' highlighters 'main' 'brackets' 'pattern' 'cursor' 'root' 
 
 ### Theme module
 # Set default theme to load.
 # Setting it to 'random' loads a random theme.
 # Auto set to 'off' on dumb terminals.
-zstyle ':dotzsh:module:theme' theme 'dotphiles'
+zstyle ':dotzsh:module:theme' theme 'sorin'
 ### Set custom theme based on hostname or domain
 # zstyle ':dotzsh:module:theme:hostname:your-host-here' theme 'dotphiles' 'soldark' 'magenta'
 # zstyle ':dotzsh:module:theme:hostname:your-other-host-here' theme 'dotphiles' 'soldark' 'violet'
 # zstyle ':dotzsh:module:theme:domain:your-domain-here' theme 'dotphiles' 'soldark' 'orange'
 
 ### Load dotzsh
-source "$DOTZSH/init.zsh"
+source "$HOME/.zsh/init.zsh"
 
 ## Load System Wide Configurations
 source /etc/zsh/zshrc
@@ -94,3 +94,7 @@ source /etc/zsh/zshrc
 ## Add Shell Agnostic Configurations
 source "$HOME/.profile"
 source "$HOME/.aliases"
+
+for file in ~/.zsh/modules/**/*.zsh;  
+do source $file
+    done

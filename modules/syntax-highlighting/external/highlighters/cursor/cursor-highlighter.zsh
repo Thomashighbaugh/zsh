@@ -27,6 +27,8 @@
 # -*- mode: zsh; sh-indentation: 2; indent-tabs-mode: nil; sh-basic-offset: 2; -*-
 # vim: ft=zsh sw=2 ts=2 et
 # -------------------------------------------------------------------------------------------------
+# List of keyword and color pairs.
+typeset -gA ZSH_HIGHLIGHT_STYLES
 
 
 # Define default styles.

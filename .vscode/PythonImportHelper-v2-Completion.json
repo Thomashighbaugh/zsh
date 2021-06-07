@@ -60,24 +60,6 @@
         "documentation": {}
     },
     {
-        "label": "shlex",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "shlex",
-        "description": "shlex",
-        "detail": "shlex",
-        "documentation": {}
-    },
-    {
-        "label": "setuptools",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "setuptools",
-        "description": "setuptools",
-        "detail": "setuptools",
-        "documentation": {}
-    },
-    {
         "label": "format_tip",
         "kind": 2,
         "importPath": "modules.alias-tips.alias-tips",
@@ -264,60 +246,6 @@
         "description": "modules.alias-tips.test_alias-tips",
         "peekOfCode": "alias_tips = imp.load_source('alias-tips', 'alias-tips.py')\ndef run_blackboxed(args, aliases):\n    p = run_process(args)\n    stdout, _ = p.communicate(input=aliases.encode())\n    return stdout\ndef run_blackboxed_exit_code(args, aliases):\n    p = run_process(args)\n    stdout, _ = p.communicate(input=aliases.encode())\n    return stdout, p.returncode\ndef run_process(args):",
         "detail": "modules.alias-tips.test_alias-tips",
-        "documentation": {}
-    },
-    {
-        "label": "Aliaster",
-        "kind": 6,
-        "importPath": "modules.aliaster.aliaster",
-        "description": "modules.aliaster.aliaster",
-        "peekOfCode": "class Aliaster(object):\n  def _Load(self):\n    self.aliaster = {}\n    for cmd in self._LoadCmds():\n      self._LoadCounts(cmd)\n  def _LoadCmds(self):\n    with open(FREQ_FILE, 'r') as fd:\n      lines = fd.readlines()\n    cmd = ''\n    while lines:",
-        "detail": "modules.aliaster.aliaster",
-        "documentation": {}
-    },
-    {
-        "label": "Gamificalias",
-        "kind": 6,
-        "importPath": "modules.aliaster.aliaster",
-        "description": "modules.aliaster.aliaster",
-        "peekOfCode": "class Gamificalias(object):\n  VAR = 'ALIASTER'\n  def __init__(self):\n    self.points = 0\n    self.score = int(os.getenv(self.VAR, 0))\n  def Winning(self, cmd, expanded_cnt):\n    points = expanded_cnt - len(cmd) - 1\n    self.points += points\n    self.score += self.points\n  def __str__(self):",
-        "detail": "modules.aliaster.aliaster",
-        "documentation": {}
-    },
-    {
-        "label": "main",
-        "kind": 2,
-        "importPath": "modules.aliaster.aliaster",
-        "description": "modules.aliaster.aliaster",
-        "peekOfCode": "def main(_, cmd, expanded_cnt):\n  expanded_cnt = int(expanded_cnt or 0)\n  game = Gamificalias()\n  if cmd == 'aliaster':\n    print Aliaster()\n  elif expanded_cnt:\n    game.Winning(cmd, expanded_cnt)\n    print game\n  else:\n    Aliaster().Store(cmd)",
-        "detail": "modules.aliaster.aliaster",
-        "documentation": {}
-    },
-    {
-        "label": "FREQ_FILE",
-        "kind": 5,
-        "importPath": "modules.aliaster.aliaster",
-        "description": "modules.aliaster.aliaster",
-        "peekOfCode": "FREQ_FILE = os.path.join(os.getenv('HOME'), '.aliaster')\nFREQ_THRESHOLD = 10\nSUGG_LENGTH_THRESHOLD = 4\nclass Aliaster(object):\n  def _Load(self):\n    self.aliaster = {}\n    for cmd in self._LoadCmds():\n      self._LoadCounts(cmd)\n  def _LoadCmds(self):\n    with open(FREQ_FILE, 'r') as fd:",
-        "detail": "modules.aliaster.aliaster",
-        "documentation": {}
-    },
-    {
-        "label": "FREQ_THRESHOLD",
-        "kind": 5,
-        "importPath": "modules.aliaster.aliaster",
-        "description": "modules.aliaster.aliaster",
-        "peekOfCode": "FREQ_THRESHOLD = 10\nSUGG_LENGTH_THRESHOLD = 4\nclass Aliaster(object):\n  def _Load(self):\n    self.aliaster = {}\n    for cmd in self._LoadCmds():\n      self._LoadCounts(cmd)\n  def _LoadCmds(self):\n    with open(FREQ_FILE, 'r') as fd:\n      lines = fd.readlines()",
-        "detail": "modules.aliaster.aliaster",
-        "documentation": {}
-    },
-    {
-        "label": "SUGG_LENGTH_THRESHOLD",
-        "kind": 5,
-        "importPath": "modules.aliaster.aliaster",
-        "description": "modules.aliaster.aliaster",
-        "peekOfCode": "SUGG_LENGTH_THRESHOLD = 4\nclass Aliaster(object):\n  def _Load(self):\n    self.aliaster = {}\n    for cmd in self._LoadCmds():\n      self._LoadCounts(cmd)\n  def _LoadCmds(self):\n    with open(FREQ_FILE, 'r') as fd:\n      lines = fd.readlines()\n    cmd = ''",
-        "detail": "modules.aliaster.aliaster",
         "documentation": {}
     }
 ]

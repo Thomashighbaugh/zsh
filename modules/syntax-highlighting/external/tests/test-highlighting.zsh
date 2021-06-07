@@ -31,7 +31,7 @@
 
 # Check an highlighter was given as argument.
 [[ -n "$1" ]] || {
-  echo "You must provide the name of a valid highlighter as argument." >&2
+ 
   exit 1
 }
 

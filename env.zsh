@@ -1,13 +1,6 @@
-#
-# dotzsh : https://github.com/dotphiles/dotzsh
-#
-# Defines environment variables.
-#
-# Authors:
-#   Ben O'Hara <bohara@gmail.com>
-#
 
-export DOTZSH_VERSION=$(head -1 "$DOTZSH/.dotzsh")
+
+
 
 # Paths
 typeset -gU cdpath fpath mailpath manpath path

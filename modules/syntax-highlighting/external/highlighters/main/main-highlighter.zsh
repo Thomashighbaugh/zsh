@@ -28,6 +28,8 @@
 # vim: ft=zsh sw=2 ts=2 et
 # -------------------------------------------------------------------------------------------------
 
+# List of keyword and color pairs.
+typeset -gA ZSH_HIGHLIGHT_STYLES
 
 # Define default styles.
 : ${ZSH_HIGHLIGHT_STYLES[default]:=none}
