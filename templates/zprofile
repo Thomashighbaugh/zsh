@@ -1,0 +1,6 @@
+# Executes commands at login pre-zshrc.
+
+
+## Add System Wide Configurations
+source /etc/zsh/zprofile
+

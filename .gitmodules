@@ -1,36 +1,43 @@
-[submodule "plugins/zsh-history-substring-search"]
-	path = plugins/zsh-history-substring-search
+#
+# dotzsh : https://github.com/dotphiles/dotzsh
+#
+# Authors:
+#   Ben O'Hara <bohara@gmail.com>
+#
+
+[submodule "modules/history-substring-search/external"]
+	path = modules/history-substring-search/external
 	url = https://github.com/zsh-users/zsh-history-substring-search.git
-[submodule "plugins/zsh-syntax-highlighting"]
-	path = plugins/zsh-syntax-highlighting
+[submodule "modules/syntax-highlighting/external"]
+	path = modules/syntax-highlighting/external
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
-[submodule "plugins/zsh-completions"]
-	path = plugins/zsh-completions
+[submodule "modules/completion/external"]
+	path = modules/completion/external
 	url = https://github.com/zsh-users/zsh-completions.git
-[submodule "plugins/auto-fu"]
-	path = plugins/auto-fu
+[submodule "modules/auto-fu/external"]
+	path = modules/auto-fu/external
 	url = https://github.com/hchbaw/auto-fu.zsh.git
-[submodule "plugins/fasd"]
-	path = plugins/fasd
+[submodule "modules/fasd/external"]
+	path = modules/fasd/external
 	url = https://github.com/clvv/fasd.git
-[submodule "plugins/zaw"]
-	path = plugins/zaw
+[submodule "modules/zaw/external"]
+	path = modules/zaw/external
 	url = https://github.com/zsh-users/zaw
-[submodule "plugins/autoenv"]
-	path = plugins/autoenv
+[submodule "modules/autoenv/external"]
+	path = modules/autoenv/external
 	url = https://github.com/kennethreitz/autoenv
-[submodule "plugins/Aliaster"]
-	path = plugins/Aliaster
+[submodule "modules/aliaster"]
+	path = modules/aliaster
 	url = https://github.com/wesalvaro/Aliaster.git
-[submodule "plugins/zsh-autosuggestions"]
-	path = plugins/zsh-autosuggestions
+[submodule "modules/autosuggestions/external"]
+	path = modules/autosuggestions/external
 	url = https://github.com/tarruda/zsh-autosuggestions.git
-[submodule "plugins/docker-zsh-completion"]
-	path = plugins/docker-zsh-completion
+[submodule "modules/docker/external"]
+	path = modules/docker/external
 	url = https://github.com/felixr/docker-zsh-completion.git
-[submodule "plugins/alias-tips"]
-	path = plugins/alias-tips
+[submodule "modules/alias-tips"]
+	path = modules/alias-tips
 	url = https://github.com/djui/alias-tips
-[submodule "plugins/alt-and-select"]
-	path = plugins/alt-and-select
-	url = https://github.com/raisty/alt-and-select
+[submodule "modules/zsh-autosuggestions"]
+	path = modules/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions

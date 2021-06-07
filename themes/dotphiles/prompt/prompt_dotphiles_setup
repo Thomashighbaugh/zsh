@@ -1,0 +1,327 @@
+#
+# dotzsh : https://github.com/dotphiles/dotzsh
+#
+# A theme based on Steve Losh's prompt with VCS_INFO integration
+# Tweaked with solarized and zenburn colors for 256/16 color modes
+#
+# Authors:
+#   Ben O'Hara <bohara@gmail.com>
+#
+
+prompt_dotphiles_help () {
+  cat <<'EOH'
+
+General Look
+
+  user at host in ~
+   %
+
+Options
+
+  You can change the colours of the theme.
+
+  % prompt dotphiles [<theme> [<colour1> ]
+
+                 theme   : dark or light
+                 colour1 : [user] at [host]
+
+  The defaults are dark and green
+
+Example
+
+  prompt dotphiles soldark red
+  prompt dotphiles sollight orange
+  prompt dotphiles zenburn orange
+
+Colors
+
+   yellow orange red magenta violet blue cyan green
+
+EOH
+}
+
+function prompt_dotphiles_precmd {
+
+  if [[ $COLUMNS -gt 80 ]]; then
+    if [[ -n "$__PROMPT_dotphiles_VCS_UPDATE" ]] ; then
+      # Check for untracked files or updated submodules since vcs_info doesn't.
+      if [[ ! -z $(git ls-files --other --exclude-standard 2> /dev/null) ]]; then
+        fmt_branch="%{$prompt_reset%}${bropen}%{$prompt_dull%}%s%{$prompt_reset%}:%{$prompt_orange%}%b%{$prompt_reset%}${brclose} %{$prompt_green%}${dirty}%{$prompt_reset%} %u%c%m"
+      else
+        fmt_branch="%{$prompt_reset%}${bropen}%{$prompt_dull%}%s%{$prompt_reset%}:%{$prompt_orange%}%b%{$prompt_reset%}${brclose} %u%c%m"
+      fi
+      zstyle ':vcs_info:(hg*|git*):*' formats "${fmt_branch}"
+
+      vcs_info 'prompt'
+      __PROMPT_dotphiles_VCS_UPDATE=''
+    fi
+
+    prompt_detail="%{${vcs_info_msg_0_}%}"
+    end="$dash %(?:%{${prompt_hi}%}:%{${prompt_red}%})$(date +%T)"
+    local zero='%([BSUbfksu]|([FB]|){*})'
+    SEPLENGTH=${#${(S%%)end//$~zero/}}
+    DETAILLENGTH=${#${(S%%)prompt_detail//$~zero/}}
+    MAINLENGTH=${#${(S%%)MAINPROMPT//$~zero/}}
+    if [ ! -z $VIRTUAL_ENV ]; then
+        VENV=`basename $VIRTUAL_ENV`
+        VENVLENGTH=${#${(S%%)VENV//$~zero/}}
+        VENVLENGTH=$VENVLENGTH+2
+        (( j=$COLUMNS-($SEPLENGTH+$MAINLENGTH+$DETAILLENGTH+$VENVLENGTH) ))
+    else
+        (( j=$COLUMNS-($SEPLENGTH+$MAINLENGTH+$DETAILLENGTH) ))
+    fi
+    if [[ $COLUMNS -gt 120 ]]; then
+      fill=${(l:$j::-:)}
+      prompt_seperator="%{${prompt_dull}%}${fill//-/$dash}$end"
+      unset fill
+    else
+      prompt_seperator=""
+    fi
+  else
+    prompt_detail=""
+    prompt_seperator=""
+  fi
+}
+
+function prompt_dotphiles_preexec {
+  case "$(history $HISTCMD)" in
+    (*git*)
+      __PROMPT_dotphiles_VCS_UPDATE=1
+    ;;
+    (*svn*)
+      __PROMPT_dotphiles_VCS_UPDATE=1
+    ;;
+    (*hg*)
+      __PROMPT_dotphiles_VCS_UPDATE=1
+    ;;
+  esac
+}
+
+function prompt_dotphiles_chpwd {
+  __PROMPT_dotphiles_VCS_UPDATE=1
+  [ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD"
+}
+
+# Show remote ref name and number of commits ahead-of or behind
+function +vi-git-st() {
+  local ahead behind remote remsplit absplit
+  local -a gitstatus
+
+  # Are we on a remote-tracking branch?
+  remote="${$(git rev-parse --verify ${hook_com[branch]}@{upstream} \
+    --symbolic-full-name 2>/dev/null)/refs\/remotes\/}"
+
+  if [[ -n ${remote} ]] ; then
+    # for git prior to 1.7
+    # ahead=$(git rev-list origin/${hook_com[branch]}..HEAD | wc -l)
+    ahead=$(git rev-list ${hook_com[branch]}@{upstream}..HEAD 2>/dev/null | wc -l)
+    (( $ahead )) && gitstatus+=( "%{$prompt_green%}${promptahead}${ahead}%{$prompt_reset%}" )
+
+    # for git prior to 1.7
+    # behind=$(git rev-list HEAD..origin/${hook_com[branch]} | wc -l)
+    behind=$(git rev-list HEAD..${hook_com[branch]}@{upstream} 2>/dev/null | wc -l)
+    (( $behind )) && gitstatus+=( "%{$prompt_red%}${promptbehind}${behind}%{$prompt_reset%}" )
+
+    if [[ ! -z $remote ]]; then
+        remsplit=$remotetrack
+    fi
+
+    if [[ ! -z $gitstatus ]]; then
+        absplit=":"
+    fi
+
+    hook_com[branch]="${hook_com[branch]}%{$prompt_reset%}${remsplit}%{$prompt_yellow%}${remote}%{$prompt_reset%}${absplit}${(j:/:)gitstatus}"
+  fi
+
+  unset remsplit absplit
+
+}
+
+# Show count of stashed changes
+function +vi-git-stash() {
+  local -a stashes
+
+  if [[ -s ${hook_com[base]}/.git/refs/stash ]] ; then
+    stashes=$(git stash list 2>/dev/null | wc -l)
+    hook_com[misc]+="${bropen}%{$prompt_dull%}${stashes} stashed%{$prompt_reset%}${brclose}"
+  fi
+}
+
+### Store the localrev and global hash for use in other hooks
+function +vi-hg-storerev() {
+    user_data[localrev]=${hook_com[localrev]}
+    user_data[hash]=${hook_com[hash]}
+}
+
+### Show marker when the working directory is not on a branch head
+# This may indicate that running `hg up` will do something
+function +vi-hg-branchhead() {
+    local branchheadsfile i_tiphash i_branchname
+    local -a branchheads
+
+    local branchheadsfile=${hook_com[base]}/.hg/branchheads.cache
+
+    # Bail out if any mq patches are applied
+    [[ -s ${hook_com[base]}/.hg/patches/status ]] && return 0
+
+    if [[ -r ${branchheadsfile} ]] ; then
+        while read -r i_tiphash i_branchname ; do
+            branchheads+=( $i_tiphash )
+        done < ${branchheadsfile}
+
+        if [[ ! ${branchheads[(i)${user_data[hash]}]} -le ${#branchheads} ]] ; then
+            hook_com[revision]="${c4}^${c2}${hook_com[revision]}"
+        fi
+    fi
+}
+
+function get_hostname_color() {
+    local chash=0
+    hostcolors=( red orange yellow cyan magenta brcyan )
+    foreach letter ( ${(ws::)HOSTNAME} )
+        (( chash += #letter ))
+    end
+    local crand=$(( $chash % 6 ))
+    local crandname=$hostcolors[$crand+1]
+    echo "$crandname"
+}
+
+function prompt_dotphiles_setup {
+  setopt LOCAL_OPTIONS
+  unsetopt XTRACE KSH_ARRAYS
+  prompt_opts=(cr percent subst)
+
+  prompt_theme=${1}
+  host_hash_color=$(get_hostname_color)
+  _prompt_host=${2:-$host_hash_color}
+
+  prompt_brblack="$fg_bold[black]"  # brblack base03
+  prompt_black="$fg_no_bold[black]"  # black base02
+  prompt_brgreen="$fg_bold[green]"  # brgreen base01
+  prompt_bryellow="$fg_bold[yellow]"  # bryellow base00
+  prompt_brblue="$fg_bold[blue]"  # brblue base0
+  prompt_brcyan="$fg_bold[cyan]"  # brcyan base1
+  prompt_white="$fg_no_bold[white]" # white base2
+  prompt_brwhite="$fg_bold[white]" # brwhite base3
+  prompt_yellow="$fg_no_bold[yellow]" # yellow yellow
+  prompt_orange="$fg_bold[red]" # brred orange
+  prompt_red="$fg_no_bold[red]" # red red
+  prompt_magenta="$fg_no_bold[magenta]" # magenta magenta
+  prompt_violet="$fg_bold[magenta]" # brmagenta violet
+  prompt_blue="$fg_no_bold[blue]" # blue blue
+  prompt_cyan="$fg_no_bold[cyan]" # cyan cyan
+  prompt_green="$fg_no_bold[green]" # green green
+  prompt_reset="$fg_no_bold[white]" # white base2
+  prompt_hi="$fg_bold[white]" # brwhite base3
+  prompt_dull="$fg_bold[blue]"  # brblack base03
+
+  if [[ "$LC_TERM_PROFILE" == '.*\.light' ]]; then
+    prompt_reset="$fg_bold[black]" # white base2
+    prompt_hi="$fg_no_bold[black]" # brwhite base3
+    prompt_dull="$fg_bold[yellow]"  # brblack base03
+  fi
+
+  # Check for the minimum supported version.
+  min_zsh_version='4.3.10'
+  if autoload -Uz is-at-least && is-at-least "$min_zsh_version"; then
+    autoload -Uz add-zsh-hook
+    autoload -Uz vcs_info
+    add-zsh-hook precmd prompt_dotphiles_precmd
+    add-zsh-hook preexec prompt_dotphiles_preexec
+    add-zsh-hook chpwd prompt_dotphiles_chpwd
+    __PROMPT_dotphiles_VCS_UPDATE=1
+
+    userprompt="❯❯"
+    bropen="❮"
+    brclose="❯"
+    unstaged="✱"
+    staged="✚"
+    dirty="✭"
+    promptahead="⬆ "
+    promptbehind="⬇ "
+    remotetrack="▸"
+    over="♺"
+    dash="⋅"
+    RPROMPT='${editor_info[keymap]}${editor_info[overwrite]}${VIM:+" %B%{$prompt_green%}V%b%{$prompt_reset%}"}'
+  else
+    RPROMPT=''
+
+    userprompt=">>"
+    bropen="("
+    brclose=")"
+     unstaged="x"
+    staged="+"
+    dirty="*"
+    promptahead="+"
+    promptbehind="-"
+    remotetrack=">"
+    over="O"
+    dash="-"
+  fi
+  unset min_zsh_version
+
+  eval prompt_host="$"prompt_$_prompt_host""
+
+  if [[ $COLUMNS -gt 80 ]]; then
+    path_parts=5
+  else
+    path_parts=3
+  fi
+
+  if [[ ! -z $SSH_CONNECTION ]]; then
+    prompt_at="on"
+  else
+    prompt_at="at"
+  fi
+
+  zstyle ':dotzsh:module:editor' completing '%{$prompt_brgreen%}...%{$prompt_reset%}'
+
+  # Enable VCS systems you use.
+  zstyle ':vcs_info:*' enable git hg svn cvs
+
+  # check-for-changes can be really slow.
+  # You should disable it if you work with large repositories.
+  zstyle ':vcs_info:(hg*|git*):*' check-for-changes true
+  zstyle ':vcs_info:(hg*|git*):*' get-revision true
+
+  zstyle ':vcs_info:git*+set-message:*' hooks git-st git-stash
+  zstyle ':vcs_info:hg*+set-message:*' hooks hg-storerev hg-branchhead
+
+  # Formats:
+  # %b - branchname
+  # %u - unstagedstr (see below)
+  # %c - stagedstr (see below)
+  # %a - action (e.g. rebase-i)
+  # %R - repository path
+  # %S - path in the repository
+  local fmt_branch="%{$prompt_reset%}${bropen}%{$prompt_dull%}%s%{$prompt_reset%}:%{$prompt_orange%}%b%{$prompt_reset%}${brclose} %u%c%m"
+  local fmt_action="%{$prompt_reset%}${bropen}%{$prompt_yellow%}%a%{$prompt_reset%}${brclose}"
+  local fmt_unstaged="%{$prompt_red%}${unstaged}%{$prompt_reset%} "
+  local fmt_staged="%{$prompt_green%}${staged}%{$prompt_reset%} "
+
+  zstyle ':vcs_info:(hg*|git*|svn*|cvs*):*' unstagedstr   "${fmt_unstaged}"
+  zstyle ':vcs_info:(hg*|git*|svn*|cvs*):*' stagedstr     "${fmt_staged}"
+  zstyle ':vcs_info:(hg*|git*|svn*|cvs*):*' actionformats "${fmt_branch}${fmt_action}"
+  zstyle ':vcs_info:(hg*|git*|svn*|cvs*):*' formats       "${fmt_branch}"
+  zstyle ':vcs_info:(hg*|git*|svn*|cvs*):*' nvcsformats   ""
+
+  # rev+changes branch misc
+  zstyle ':vcs_info:hg*:*' get-bookmarks true
+
+  zstyle ':vcs_info:hg*:*' get-mq true
+  zstyle ':vcs_info:hg*:*' get-unapplied true
+  zstyle ':vcs_info:hg*:*' patch-format "mq(%g):%n/%c %p"
+  zstyle ':vcs_info:hg*:*' nopatch-format "mq(%g):%n/%c %p"
+  zstyle ':vcs_info:hg*:*' hgrevformat "%r" # only show local rev.
+  zstyle ':vcs_info:hg*:*' branchformat "%b" # only show branch
+
+  zstyle ':dotzsh:module:editor:keymap:primary' overwrite " %{$prompt_red%}${over}%{$prompt_reset%}"
+  zstyle ':dotzsh:module:editor:keymap' alternate " %{$prompt_yellow%}${bropen}%{$prompt_orange%}${bropen}%{$prompt_red%}${bropen}%{$prompt_reset%}"
+  SPROMPT='zsh: correct %{$prompt_red%}%R%{$prompt_reset%} to %{$prompt_green%}%r%{$prompt_reset%} [nyae]? '
+  MAINPROMPT="%(!.%U%{$prompt_red%}.%{$prompt_host%})%n%u%{$prompt_dull%} ${prompt_at} %{$prompt_host%}$HOSTNAME%u%{$prompt_dull%} in %{$prompt_hi%}%$path_parts~ "
+  SUBPROMPT="%{${prompt_hi}%} ${userprompt} %{$prompt_reset%}"
+  PROMPT='%{$MAINPROMPT%}%{$prompt_detail%}%{$prompt_seperator%}
+$SUBPROMPT'
+}
+
+prompt_dotphiles_setup "$@"

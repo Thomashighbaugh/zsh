@@ -1,0 +1,323 @@
+[
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "sys",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "sys",
+        "description": "sys",
+        "detail": "sys",
+        "documentation": {}
+    },
+    {
+        "label": "subprocess",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "subprocess",
+        "description": "subprocess",
+        "detail": "subprocess",
+        "documentation": {}
+    },
+    {
+        "label": "PIPE",
+        "importPath": "subprocess",
+        "description": "subprocess",
+        "isExtraImport": true,
+        "detail": "subprocess",
+        "documentation": {}
+    },
+    {
+        "label": "TestCase",
+        "importPath": "unittest",
+        "description": "unittest",
+        "isExtraImport": true,
+        "detail": "unittest",
+        "documentation": {}
+    },
+    {
+        "label": "expectedFailure",
+        "importPath": "unittest",
+        "description": "unittest",
+        "isExtraImport": true,
+        "detail": "unittest",
+        "documentation": {}
+    },
+    {
+        "label": "imp",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "imp",
+        "description": "imp",
+        "detail": "imp",
+        "documentation": {}
+    },
+    {
+        "label": "shlex",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "shlex",
+        "description": "shlex",
+        "detail": "shlex",
+        "documentation": {}
+    },
+    {
+        "label": "setuptools",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "setuptools",
+        "description": "setuptools",
+        "detail": "setuptools",
+        "documentation": {}
+    },
+    {
+        "label": "format_tip",
+        "kind": 2,
+        "importPath": "modules.alias-tips.alias-tips",
+        "description": "modules.alias-tips.alias-tips",
+        "peekOfCode": "def format_tip(s, prefix):\n    color_blue_normal = '\\033[94m'\n    color_blue_bold = '\\033[1;94m'\n    color_reset = '\\033[0m'\n    return color_blue_normal + prefix + color_blue_bold + s + color_reset\ndef split(input):\n    aliases, functions = [], []\n    for line in input:\n        line = line.strip('\\n')\n        if line.endswith(' () {'):",
+        "detail": "modules.alias-tips.alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "split",
+        "kind": 2,
+        "importPath": "modules.alias-tips.alias-tips",
+        "description": "modules.alias-tips.alias-tips",
+        "peekOfCode": "def split(input):\n    aliases, functions = [], []\n    for line in input:\n        line = line.strip('\\n')\n        if line.endswith(' () {'):\n            functions.append(line[:-5].strip())\n        elif '=' in line:\n            # It's hard to exclude all accidental lines in function body without\n            # parsing it. This is \"good enough\"(tm)\n            aliases.append(line)",
+        "detail": "modules.alias-tips.alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "parse_aliases",
+        "kind": 2,
+        "importPath": "modules.alias-tips.alias-tips",
+        "description": "modules.alias-tips.alias-tips",
+        "peekOfCode": "def parse_aliases(raw_aliases):\n    aliases = []\n    for alias_line in raw_aliases:\n        try:\n            alias, expanded = alias_line.strip().split('=', 1)\n            alias = alias.strip()\n            if alias.startswith('\\'') and alias.endswith('\\''):\n                alias = alias.strip('\\'')\n            alias = alias.strip()\n            expanded = expanded.strip()",
+        "detail": "modules.alias-tips.alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "exclude_aliases",
+        "kind": 2,
+        "importPath": "modules.alias-tips.alias-tips",
+        "description": "modules.alias-tips.alias-tips",
+        "peekOfCode": "def exclude_aliases(aliases, excludes):\n    return [alias for alias in aliases if alias[0] not in excludes]\ndef expand_input(input, aliases):\n    max_exp, max_expanded = 0, None\n    for alias, expanded in aliases:\n        if (input.startswith(alias + ' ') and\n            len(expanded) > len(alias) and\n            len(expanded) > max_exp):\n            max_expanded = input.replace(alias, expanded, 1)\n            max_exp = len(expanded)",
+        "detail": "modules.alias-tips.alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "expand_input",
+        "kind": 2,
+        "importPath": "modules.alias-tips.alias-tips",
+        "description": "modules.alias-tips.alias-tips",
+        "peekOfCode": "def expand_input(input, aliases):\n    max_exp, max_expanded = 0, None\n    for alias, expanded in aliases:\n        if (input.startswith(alias + ' ') and\n            len(expanded) > len(alias) and\n            len(expanded) > max_exp):\n            max_expanded = input.replace(alias, expanded, 1)\n            max_exp = len(expanded)\n    return max_expanded if max_expanded else input\ndef find_alias(aliases, input):",
+        "detail": "modules.alias-tips.alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "find_alias",
+        "kind": 2,
+        "importPath": "modules.alias-tips.alias-tips",
+        "description": "modules.alias-tips.alias-tips",
+        "peekOfCode": "def find_alias(aliases, input):\n    aliases.sort(key=lambda x: len(x[1]), reverse=True)\n    res_prev, res = None, input\n    while res_prev != res:\n        res_prev = res\n        for alias, expanded in aliases:\n            if res == expanded or res.startswith(expanded + ' '):\n                idx = len(expanded)\n                res = alias + res[idx:]\n    return res",
+        "detail": "modules.alias-tips.alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "run",
+        "kind": 2,
+        "importPath": "modules.alias-tips.alias-tips",
+        "description": "modules.alias-tips.alias-tips",
+        "peekOfCode": "def run(aliases, input, expand, excludes):\n    if excludes:\n        aliases = exclude_aliases(aliases, excludes.split())\n    if expand:\n        input = expand_input(input, aliases)\n    return find_alias(aliases, input)\ndef main(args):\n    prefix   = os.getenv('ZSH_PLUGINS_ALIAS_TIPS_TEXT', 'Alias tip: ')\n    expand   = os.getenv('ZSH_PLUGINS_ALIAS_TIPS_EXPAND', '1') == '1'\n    excludes = os.getenv('ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES', '')",
+        "detail": "modules.alias-tips.alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "modules.alias-tips.alias-tips",
+        "description": "modules.alias-tips.alias-tips",
+        "peekOfCode": "def main(args):\n    prefix   = os.getenv('ZSH_PLUGINS_ALIAS_TIPS_TEXT', 'Alias tip: ')\n    expand   = os.getenv('ZSH_PLUGINS_ALIAS_TIPS_EXPAND', '1') == '1'\n    excludes = os.getenv('ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES', '')\n    force    = os.getenv('ZSH_PLUGINS_ALIAS_TIPS_FORCE', '0') == '1'\n    input    = args[0].strip()  # Other args are resolved aliases\n    als, fns = split(sys.stdin.readlines())\n    # Don't suggest alias for functions\n    for fn in fns:\n        if input == fn:",
+        "detail": "modules.alias-tips.alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "FORCE_EXIT_CODE",
+        "kind": 5,
+        "importPath": "modules.alias-tips.alias-tips",
+        "description": "modules.alias-tips.alias-tips",
+        "peekOfCode": "FORCE_EXIT_CODE = 10\ndef format_tip(s, prefix):\n    color_blue_normal = '\\033[94m'\n    color_blue_bold = '\\033[1;94m'\n    color_reset = '\\033[0m'\n    return color_blue_normal + prefix + color_blue_bold + s + color_reset\ndef split(input):\n    aliases, functions = [], []\n    for line in input:\n        line = line.strip('\\n')",
+        "detail": "modules.alias-tips.alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "TestAliasTipFormatting",
+        "kind": 6,
+        "importPath": "modules.alias-tips.test_alias-tips",
+        "description": "modules.alias-tips.test_alias-tips",
+        "peekOfCode": "class TestAliasTipFormatting(TestCase):\n    def test_no_prefix(self):\n        self.assertEqual(alias_tips.format_tip('foo', ''), '\\x1b[94m\\x1b[1;94mfoo\\x1b[0m')\n    def test_prefix(self):\n        self.assertEqual(alias_tips.format_tip('foo', 'Bar'), '\\x1b[94mBar\\x1b[1;94mfoo\\x1b[0m')\nclass TestAliasParsing(TestCase):\n    def test_no_aliases(self):\n        self.assertEqual(alias_tips.parse_aliases([]),   [])\n        self.assertEqual(alias_tips.parse_aliases(['']), [])\n    def test_simpliest(self):",
+        "detail": "modules.alias-tips.test_alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "TestAliasParsing",
+        "kind": 6,
+        "importPath": "modules.alias-tips.test_alias-tips",
+        "description": "modules.alias-tips.test_alias-tips",
+        "peekOfCode": "class TestAliasParsing(TestCase):\n    def test_no_aliases(self):\n        self.assertEqual(alias_tips.parse_aliases([]),   [])\n        self.assertEqual(alias_tips.parse_aliases(['']), [])\n    def test_simpliest(self):\n        self.assertEqual(alias_tips.parse_aliases(['foo=bar']), [('foo', 'bar')])\n    def test_quoted_expand(self):\n        self.assertEqual(alias_tips.parse_aliases(['foo=\\'bar\\'']), [('foo', 'bar')])\n    def test_quoted_alias(self):\n        self.assertEqual(alias_tips.parse_aliases(['\\'foo\\'=bar']), [('foo', 'bar')])",
+        "detail": "modules.alias-tips.test_alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "TestAliasExcludes",
+        "kind": 6,
+        "importPath": "modules.alias-tips.test_alias-tips",
+        "description": "modules.alias-tips.test_alias-tips",
+        "peekOfCode": "class TestAliasExcludes(TestCase):\n    def test_no_excludes(self):\n        self.assertEqual(alias_tips.exclude_aliases([('foo', 'bar')], []), [('foo', 'bar')])\n    def test_single_exclude(self):\n        self.assertEqual(alias_tips.exclude_aliases([('foo', 'bar')], ['foo']), [])\n    def test_single_exclude_missed(self):\n        self.assertEqual(alias_tips.exclude_aliases([('foo', 'bar')], ['foo2']), [('foo', 'bar')])\nclass TestAliasExpand(TestCase):\n    def test_no_aliases(self):\n        self.assertEqual(alias_tips.expand_input('',      []), '')",
+        "detail": "modules.alias-tips.test_alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "TestAliasExpand",
+        "kind": 6,
+        "importPath": "modules.alias-tips.test_alias-tips",
+        "description": "modules.alias-tips.test_alias-tips",
+        "peekOfCode": "class TestAliasExpand(TestCase):\n    def test_no_aliases(self):\n        self.assertEqual(alias_tips.expand_input('',      []), '')\n        self.assertEqual(alias_tips.expand_input('gR -v', []), 'gR -v')\n    def test_no_input(self):\n        self.assertEqual(alias_tips.expand_input('', [('gRv', 'git remote -v'), ('gR', 'git remote')]), '')\n    def test_no_expand(self):\n        self.assertEqual(alias_tips.expand_input('gR -v', [('gRv', 'git remote -v')]), 'gR -v')\n        self.assertEqual(alias_tips.expand_input('gR -v', [('gR',  'git remote')]), 'git remote -v')\n    def test_expand(self):",
+        "detail": "modules.alias-tips.test_alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "TestFindAlias",
+        "kind": 6,
+        "importPath": "modules.alias-tips.test_alias-tips",
+        "description": "modules.alias-tips.test_alias-tips",
+        "peekOfCode": "class TestFindAlias(TestCase):\n    def test_no_aliases(self):\n        self.assertEqual(alias_tips.find_alias([], ''), '')\n        self.assertEqual(alias_tips.find_alias([], 'foo'), 'foo')\n    def test_equal_length(self):\n        self.assertEqual(alias_tips.find_alias([('foo', 'bar')], 'bar'), 'foo')\n    def test_single(self):\n        self.assertEqual(alias_tips.find_alias([('f', 'bar')], 'bar'), 'f')\n    def test_suffix(self):\n        self.assertEqual(alias_tips.find_alias([('f', 'bar')], 'bar -v'), 'f -v')",
+        "detail": "modules.alias-tips.test_alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "TestSplit",
+        "kind": 6,
+        "importPath": "modules.alias-tips.test_alias-tips",
+        "description": "modules.alias-tips.test_alias-tips",
+        "peekOfCode": "class TestSplit(TestCase):\n    def test_split(self):\n        self.assertEqual(alias_tips.split(''),                                   ([], []))\n        self.assertEqual(alias_tips.split(['foo () {', '}']),                    ([], ['foo']))\n        self.assertEqual(alias_tips.split(['foo () {', '}', 'foo=bar']),         (['foo=bar'], ['foo']))\n        self.assertEqual(alias_tips.split(['foo () {', '\\tfoo','}', 'foo=bar']), (['foo=bar'], ['foo']))\nclass TestWhitebox(TestCase):\n    def test_no_aliases(self):\n        self.assertEqual(alias_tips.run([], 'bar -v', False, []), 'bar -v')\n    def test_simple(self):",
+        "detail": "modules.alias-tips.test_alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "TestWhitebox",
+        "kind": 6,
+        "importPath": "modules.alias-tips.test_alias-tips",
+        "description": "modules.alias-tips.test_alias-tips",
+        "peekOfCode": "class TestWhitebox(TestCase):\n    def test_no_aliases(self):\n        self.assertEqual(alias_tips.run([], 'bar -v', False, []), 'bar -v')\n    def test_simple(self):\n        self.assertEqual(alias_tips.run([('f', 'bar'), ('g', 'baz')], 'bar -v', False, []), 'f -v')\n    def test_multiple_exchanges(self):\n        self.assertEqual(alias_tips.run([('ff', 'bar'), ('f', 'ff')],                  'bar -v',         False, []), 'f -v')\n        self.assertEqual(alias_tips.run([('ff', 'bar'), ('f', 'ff')],                  'bar -v',         True,  []), 'f -v')\n        self.assertEqual(alias_tips.run([('ff', 'bar'), ('f', 'ff')],                  'bar',            False, []), 'f')\n        self.assertEqual(alias_tips.run([('ff', 'bar'), ('f', 'ff')],                  'bar',            True,  []), 'f')",
+        "detail": "modules.alias-tips.test_alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "TestBlackbox",
+        "kind": 6,
+        "importPath": "modules.alias-tips.test_alias-tips",
+        "description": "modules.alias-tips.test_alias-tips",
+        "peekOfCode": "class TestBlackbox(TestCase):\n    def test_no_envs(self):\n        self.assertEqual(run_blackboxed('foo', ''), b'')\n    def test_text_env(self):\n        os.putenv('ZSH_PLUGINS_ALIAS_TIPS_TEXT', 'Foo')\n        self.assertEqual(run_blackboxed('bar', 'f=bar'), b'\\x1b[94mFoo\\x1b[1;94mf\\x1b[0m\\n')\n    def test_exclude_env(self):\n        os.putenv('ZSH_PLUGINS_ALIAS_TIPS_TEXT', 'Foo')\n        os.putenv('ZSH_PLUGINS_ALIAS_TIPS_EXCLUDES', '\"f b\"')\n        self.assertEqual(run_blackboxed('bar', 'f=bar'),      b'\\x1b[94mFoo\\x1b[1;94mf\\x1b[0m\\n')",
+        "detail": "modules.alias-tips.test_alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "run_blackboxed",
+        "kind": 2,
+        "importPath": "modules.alias-tips.test_alias-tips",
+        "description": "modules.alias-tips.test_alias-tips",
+        "peekOfCode": "def run_blackboxed(args, aliases):\n    p = run_process(args)\n    stdout, _ = p.communicate(input=aliases.encode())\n    return stdout\ndef run_blackboxed_exit_code(args, aliases):\n    p = run_process(args)\n    stdout, _ = p.communicate(input=aliases.encode())\n    return stdout, p.returncode\ndef run_process(args):\n    return subprocess.Popen(['python', './alias-tips.py', args], stdout=PIPE, stdin=PIPE, stderr=PIPE)",
+        "detail": "modules.alias-tips.test_alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "run_blackboxed_exit_code",
+        "kind": 2,
+        "importPath": "modules.alias-tips.test_alias-tips",
+        "description": "modules.alias-tips.test_alias-tips",
+        "peekOfCode": "def run_blackboxed_exit_code(args, aliases):\n    p = run_process(args)\n    stdout, _ = p.communicate(input=aliases.encode())\n    return stdout, p.returncode\ndef run_process(args):\n    return subprocess.Popen(['python', './alias-tips.py', args], stdout=PIPE, stdin=PIPE, stderr=PIPE)\nclass TestAliasTipFormatting(TestCase):\n    def test_no_prefix(self):\n        self.assertEqual(alias_tips.format_tip('foo', ''), '\\x1b[94m\\x1b[1;94mfoo\\x1b[0m')\n    def test_prefix(self):",
+        "detail": "modules.alias-tips.test_alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "run_process",
+        "kind": 2,
+        "importPath": "modules.alias-tips.test_alias-tips",
+        "description": "modules.alias-tips.test_alias-tips",
+        "peekOfCode": "def run_process(args):\n    return subprocess.Popen(['python', './alias-tips.py', args], stdout=PIPE, stdin=PIPE, stderr=PIPE)\nclass TestAliasTipFormatting(TestCase):\n    def test_no_prefix(self):\n        self.assertEqual(alias_tips.format_tip('foo', ''), '\\x1b[94m\\x1b[1;94mfoo\\x1b[0m')\n    def test_prefix(self):\n        self.assertEqual(alias_tips.format_tip('foo', 'Bar'), '\\x1b[94mBar\\x1b[1;94mfoo\\x1b[0m')\nclass TestAliasParsing(TestCase):\n    def test_no_aliases(self):\n        self.assertEqual(alias_tips.parse_aliases([]),   [])",
+        "detail": "modules.alias-tips.test_alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "alias_tips",
+        "kind": 5,
+        "importPath": "modules.alias-tips.test_alias-tips",
+        "description": "modules.alias-tips.test_alias-tips",
+        "peekOfCode": "alias_tips = imp.load_source('alias-tips', 'alias-tips.py')\ndef run_blackboxed(args, aliases):\n    p = run_process(args)\n    stdout, _ = p.communicate(input=aliases.encode())\n    return stdout\ndef run_blackboxed_exit_code(args, aliases):\n    p = run_process(args)\n    stdout, _ = p.communicate(input=aliases.encode())\n    return stdout, p.returncode\ndef run_process(args):",
+        "detail": "modules.alias-tips.test_alias-tips",
+        "documentation": {}
+    },
+    {
+        "label": "Aliaster",
+        "kind": 6,
+        "importPath": "modules.aliaster.aliaster",
+        "description": "modules.aliaster.aliaster",
+        "peekOfCode": "class Aliaster(object):\n  def _Load(self):\n    self.aliaster = {}\n    for cmd in self._LoadCmds():\n      self._LoadCounts(cmd)\n  def _LoadCmds(self):\n    with open(FREQ_FILE, 'r') as fd:\n      lines = fd.readlines()\n    cmd = ''\n    while lines:",
+        "detail": "modules.aliaster.aliaster",
+        "documentation": {}
+    },
+    {
+        "label": "Gamificalias",
+        "kind": 6,
+        "importPath": "modules.aliaster.aliaster",
+        "description": "modules.aliaster.aliaster",
+        "peekOfCode": "class Gamificalias(object):\n  VAR = 'ALIASTER'\n  def __init__(self):\n    self.points = 0\n    self.score = int(os.getenv(self.VAR, 0))\n  def Winning(self, cmd, expanded_cnt):\n    points = expanded_cnt - len(cmd) - 1\n    self.points += points\n    self.score += self.points\n  def __str__(self):",
+        "detail": "modules.aliaster.aliaster",
+        "documentation": {}
+    },
+    {
+        "label": "main",
+        "kind": 2,
+        "importPath": "modules.aliaster.aliaster",
+        "description": "modules.aliaster.aliaster",
+        "peekOfCode": "def main(_, cmd, expanded_cnt):\n  expanded_cnt = int(expanded_cnt or 0)\n  game = Gamificalias()\n  if cmd == 'aliaster':\n    print Aliaster()\n  elif expanded_cnt:\n    game.Winning(cmd, expanded_cnt)\n    print game\n  else:\n    Aliaster().Store(cmd)",
+        "detail": "modules.aliaster.aliaster",
+        "documentation": {}
+    },
+    {
+        "label": "FREQ_FILE",
+        "kind": 5,
+        "importPath": "modules.aliaster.aliaster",
+        "description": "modules.aliaster.aliaster",
+        "peekOfCode": "FREQ_FILE = os.path.join(os.getenv('HOME'), '.aliaster')\nFREQ_THRESHOLD = 10\nSUGG_LENGTH_THRESHOLD = 4\nclass Aliaster(object):\n  def _Load(self):\n    self.aliaster = {}\n    for cmd in self._LoadCmds():\n      self._LoadCounts(cmd)\n  def _LoadCmds(self):\n    with open(FREQ_FILE, 'r') as fd:",
+        "detail": "modules.aliaster.aliaster",
+        "documentation": {}
+    },
+    {
+        "label": "FREQ_THRESHOLD",
+        "kind": 5,
+        "importPath": "modules.aliaster.aliaster",
+        "description": "modules.aliaster.aliaster",
+        "peekOfCode": "FREQ_THRESHOLD = 10\nSUGG_LENGTH_THRESHOLD = 4\nclass Aliaster(object):\n  def _Load(self):\n    self.aliaster = {}\n    for cmd in self._LoadCmds():\n      self._LoadCounts(cmd)\n  def _LoadCmds(self):\n    with open(FREQ_FILE, 'r') as fd:\n      lines = fd.readlines()",
+        "detail": "modules.aliaster.aliaster",
+        "documentation": {}
+    },
+    {
+        "label": "SUGG_LENGTH_THRESHOLD",
+        "kind": 5,
+        "importPath": "modules.aliaster.aliaster",
+        "description": "modules.aliaster.aliaster",
+        "peekOfCode": "SUGG_LENGTH_THRESHOLD = 4\nclass Aliaster(object):\n  def _Load(self):\n    self.aliaster = {}\n    for cmd in self._LoadCmds():\n      self._LoadCounts(cmd)\n  def _LoadCmds(self):\n    with open(FREQ_FILE, 'r') as fd:\n      lines = fd.readlines()\n    cmd = ''",
+        "detail": "modules.aliaster.aliaster",
+        "documentation": {}
+    }
+]
