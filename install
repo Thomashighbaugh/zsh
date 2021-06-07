@@ -1,5 +1,0 @@
-#!/bin/zsh
-
-for rcfile in ~/.zsh/templates/z{shenv,shrc,login,logout}; 
-do cp -f $rcfile ~/.$rcfile:t 
-    done

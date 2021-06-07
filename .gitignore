@@ -1,11 +1,6 @@
-#
-# dotzsh : https://github.com/dotphiles/dotzsh
-#
-# Authors:
-#   Ben O'Hara <bohara@gmail.com>
-#
-
-*.zwc
-*.zwc.old
-modules/*/cache.zsh
-
+*~
+*.swp
+.zsh.d/.zcompdump
+.zsh.d/.zsh_history
+.zsh.d/.zsh_sessions
+.zsh.d/cache
