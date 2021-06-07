@@ -90,4 +90,7 @@ source "$DOTZSH/init.zsh"
 
 ## Load System Wide Configurations
 source /etc/zsh/zshrc
-source /etc/zsh/zimrc
+
+## Add Shell Agnostic Configurations
+source "$HOME/.profile"
+source "$HOME/.aliases"
