@@ -1,9 +1,6 @@
 #!/usr/bin/env zsh
-cp $HOME/.zshenv $HOME/.zshenv.old
-cp $HOME/.zshrc $HOME/.zshrc.old
+#cp $HOME/.zshenv $HOME/.zshenv.old
+#cp $HOME/.zshrc $HOME/.zshrc.old
 echo "source $HOME/.zsh/env" >$HOME/.zshenv
 
 echo "source $HOME/.zsh/rc" >$HOME/.zshrc
-echo "fpath+=$HOME/.zsh/pure"  >$HOME/.zshrc
-echo "autoload -U promptinit; promptinit" >$HOME/.zshrc
-echo "prompt pure" >$HOME/.zshrc
