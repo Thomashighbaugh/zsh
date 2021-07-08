@@ -1,3 +1,5 @@
+unsetopt autoparamslash
+unsetopt autoparamslash
 
 alias yarn-local-up="yarn upgrade-interactive --latest"
 

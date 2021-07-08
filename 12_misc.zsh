@@ -4,25 +4,17 @@
 
 setopt notify
 setopt allexport
-
-setopt auto_menu     # Automatically use menu completion
+setopt auto_menu # Automatically use menu completion
+setopt menucomplete
 setopt always_to_end # Move cursor to end if word had one match
-
-
 setopt pushdtohome
-
-
 setopt recexact
-
 setopt pushdsilent
 setopt autopushd
 setopt pushdminus
 setopt rcquotes
-
-
-
-setopt nocheckjobs     # Don't warn about running processes when exiting
-# if only directory path is entered, cd there.
+setopt nocheckjobs # Don't warn about running processes when exiting
+setopt longlistjobs
 
 ## Personal Email ##############################################################
 export EMAIL="thighbaugh@zoho.com"
@@ -37,7 +29,6 @@ export GUIFM="thunar"
 export PASSWD="keepassxc"
 export LAUNCHER='rofi  -show drun -theme ~/.config/awesome/configuration/appmenu.rasi'
 export MOZ_X11_EG=1
-
 
 # OS ##############################################################
 export OS=$(uname -s)

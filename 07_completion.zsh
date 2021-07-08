@@ -6,6 +6,8 @@ setopt correctall
 setopt numericglobsort # Sort filenames numerically when it makes sense
 setopt extendedglob    # Extended globbing. Allows using regular expressions with *
 setopt nocaseglob  
+setopt always_to_end # Move cursor to end if word had one match
+
 autoload -Uz compinit
 
 typeset -i updated_at=$(

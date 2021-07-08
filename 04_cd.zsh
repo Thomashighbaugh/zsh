@@ -1,13 +1,14 @@
 #!/bin/env zsh
 ## CD
 ########################################################################
-setopt autocd    
+setopt autocd          # if only directory path is entered, cd there.
 setopt autoremoveslash
 setopt cdablevars
 setopt menucomplete
 setopt globdots
 unsetopt autoparamslash
 setopt rcexpandparam   # Array expansion with parameters
+
 ## Change Directories
 ### https://github.com/mathiasbynens/dotfiles
 alias cd.="cd . "
