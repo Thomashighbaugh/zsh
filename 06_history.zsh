@@ -1,6 +1,6 @@
 autoload -U history-search-end
 
-HISTFILE=~/.history/zsh_history
+HISTFILE=~/.zsh_history
 HISTSIZE=10500
 SAVEHIST=10000
 

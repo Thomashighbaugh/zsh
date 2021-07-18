@@ -4,3 +4,5 @@
 echo "source $HOME/.zsh/env" >$HOME/.zshenv
 
 echo "source $HOME/.zsh/rc" >$HOME/.zshrc
+
+touch ~/.zsh_history
