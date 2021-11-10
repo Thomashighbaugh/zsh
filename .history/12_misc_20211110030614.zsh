@@ -93,10 +93,10 @@ configure_prompt() {
 
 # The following block is surrounded by two delimiters.
 # These delimiters must not be modified. Thanks.
-# START CONFIG VARIABLES
-PROMPT_ALTERNATIVE=oneline
+# START KALI CONFIG VARIABLES
+PROMPT_ALTERNATIVE=twoline
 NEWLINE_BEFORE_PROMPT=yes
-# STOP CONFIG VARIABLES
+# STOP KALI CONFIG VARIABLES
 
 if [ "$color_prompt" = yes ]; then
     # override default virtualenv indicator in prompt
@@ -175,17 +175,3 @@ xterm*|rxvt*|Eterm|aterm|kterm|gnome*|alacritty)
 *)
     ;;
 esac
-
-precmd() {
-    # Print the previously configured title
-    print -Pnr -- "$TERM_TITLE"
-
-    # Print a new line before the prompt, but only if it is not the first line
-    if [ "$NEWLINE_BEFORE_PROMPT" = yes ]; then
-        if [ -z "$_NEW_LINE_BEFORE_PROMPT" ]; then
-            _NEW_LINE_BEFORE_PROMPT=1
-        else
-            print ""
-        fi
-    fi
-}

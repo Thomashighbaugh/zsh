@@ -6,3 +6,5 @@ colors
 for f in $HOME/.zsh/plugins/**/*.zsh; do
 source $f
 done
+
+source "$HOME"/.profile

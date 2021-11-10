@@ -1,9 +1,8 @@
 autoload -U history-search-end
 
 HISTFILE=~/.zsh_history
-HISTSIZE=1000
-SAVEHIST=2000
-
+HISTSIZE=10500
+SAVEHIST=10000
 
 setopt extended_history
 setopt hist_expire_dups_first
@@ -21,9 +20,9 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 # search/up one line
- autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
- zle -N up-line-or-beginning-search
- zle -N down-line-or-beginning-search
+# autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+# zle -N up-line-or-beginning-search
+# zle -N down-line-or-beginning-search
 
 #autoload -U history-search-end
 

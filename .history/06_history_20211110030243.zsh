@@ -1,9 +1,8 @@
 autoload -U history-search-end
 
 HISTFILE=~/.zsh_history
-HISTSIZE=1000
-SAVEHIST=2000
-
+HISTSIZE=10500
+SAVEHIST=20000
 
 setopt extended_history
 setopt hist_expire_dups_first
