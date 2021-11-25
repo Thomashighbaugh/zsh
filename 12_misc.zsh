@@ -165,7 +165,7 @@ toggle_oneline_prompt(){
     zle reset-prompt
 }
 zle -N toggle_oneline_prompt
-bindkey ^P toggle_oneline_prompt
+#bindkey ^P toggle_oneline_prompt
 
 # If this is an xterm set the title to user@host:dir
 case "$TERM" in
