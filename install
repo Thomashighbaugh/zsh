@@ -1,8 +1,11 @@
 #!/usr/bin/env zsh
 #cp $HOME/.zshenv $HOME/.zshenv.old
 #cp $HOME/.zshrc $HOME/.zshrc.old
-echo "source $HOME/.zsh/env" >$HOME/.zshenv
+echo "source $HOME/.zsh/env" >> $HOME/.zshenv
+echo '[ -f "$HOME/.profile" ] && source "$HOME/.profile"' >> $HOME/.zshenv
 
-echo "source $HOME/.zsh/rc" >$HOME/.zshrc
+
+echo "source $HOME/.zsh/rc" >> $HOME/.zshrc
+
 
 touch ~/.zsh_history
