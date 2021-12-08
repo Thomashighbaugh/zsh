@@ -1,5 +1,8 @@
 mydir=$(dirname $0)
 
-for f in $mydir/??_*.zsh; do
+for f in $mydir/??_*.env.zsh; do
     source $f
 done
+
+
+source "$HOME"/.profile

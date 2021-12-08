@@ -4,7 +4,10 @@ My zsh configuration, part of my [dotfiles](https://github.com/dotfiles) but too
 
 ## Plugins
 
-I have included plugins as submodules (see I can use them fine, just having my dotfiles pull in repos like this and still symlink them makes zero sense). The included plugins are listed below:
+No longer feeling the need or desire to prove I can use submodules effectively (if jobs don't believe me, they can be pleasantly surprized) I am going to eliminate most of these and rewrite the functionality of them I want or need locally because:
+- stability - I don't mess with code, it doesn't change or break
+- neatness - submodules work well enough, but its not a neat process. 
+- performance - rewriting these will give me a chance to consider the necessity of the plugin, eliminating stupid additions
 
 | Name                         | Function                                                                   |
 | ---------------------------- | -------------------------------------------------------------------------- |
@@ -28,18 +31,17 @@ This reposiotry conforms to an organization method often seen in larger system c
 Looping as means of sourcing these files has the orimary advantage of liberating the author from having to maintain a list of manually sourced files that one can easily forget some member there of, or leave a deleted member on prompting various errors of a particular order of painful to debug. 
 
 It works as such: 
-- the `sh` and `env` files point to the configuration's components via loops, which are pointed to by `.zshrc` ad `.zshenv` files in their typical locations to tthis repos location
+- the `sh` and `env` files point to the configuration's components via loops, which are pointed to by `.zshrc` ad `.zshenv` files in their typical locations to this repos location
 - shell will start at 0 and work its way through the numbers (never exceeding 100, at least not yet).
 - Cases with multiple files per number will be sourced alphabetically 
 
-### Topical Files
+## Multishell Returns
 
-Additionally, the *topical* focus of the files is more in line with the idea of modularity that makes object oreintation such a particular favorite of mine, and also files from repositories conforming to this style should lend themselves to being easily grafted unto your own configuation. 
+While I had been moving away from a multishell configuration due to specific items, I have found that actually for the vast majority of things, it simply makes more sense tp make these available across several shells (especially aliases) and can roll in here whatever specific things require this shell's features vs. the features available via posix or bash and vice versa in other contexts because: 
 
-This is in direct contrast to the functionality > topical means I had used prior and while the taxonomy is arbitrary, so far it has proven much easier to conceptualize (thus easier to piece together in one's head) and is more easily examined when debugging is necessary. 
+- maintaining parity of aliases across shells makes absolutely no sense
+- there are relatively few features that are specific to these shells I end up using often, those that do come up can be successfully nested in that shell's configuration. Generally they are zsh shell specific and generally they are in this repo. 
 
-### Twilight of My Multishell Configuration
-Due to differences in how the shells I use (`sh`, `bash`, `zsh`) render various commands and handle various structures, I am moving away from a more multishell configuration and towards one specific to `zsh` (and soon likely a specific `bash` configuration even if it means reusing the code) primarily to enable access to the zsh specific features more reliably and due to the ease of sharing files between separate configurations enabled by the *modular*, *topical* method herein expressed. 
 
 ## Credit Where Its Due
 
