@@ -140,6 +140,8 @@
 #     ZSH_HIGHLIGHT_STYLES[cursor - matchingbracket]=standout
 # fi
 
-eval "$(shelby init zsh)"
+
 
 RPROMPT=""
+
+source $HOME/.zsh/hyperzsh.zsh
