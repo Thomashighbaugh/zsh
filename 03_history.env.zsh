@@ -12,10 +12,14 @@ setopt hist_find_no_dups      # Don't show duplicates
 setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
 setopt hist_verify            # show command with history expansion to user before running it
 
-setopt hist_ignore_all_dups # Remove older duplicate entries from history
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_FIND_NO_DUPS
+setopt HIST_IGNORE_SPACE      # If a line starts with a space, don't save it.
 setopt hist_reduce_blanks   # Remove superfluous blanks from history items
 setopt inc_append_history   # Save history entries as soon as they are entered
 setopt share_history        # Share history between different instances of the shell
+setopt HIST_VERIFY            # When using a hist thing, make a newline show the change before executing it.
+setopt SHARE_HISTORY          # Killer: share history between multiple shells
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down

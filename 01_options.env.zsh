@@ -11,8 +11,18 @@ setopt nobeep
 setopt autocd
 setopt autoremoveslash
 setopt cdablevars
+# Make cd = pushd 
+setopt AUTO_PUSHD 
+setopt PUSHD_IGNORE_DUPS
+setopt PUSHD_MINUS
+# Completion Options 
 setopt menucomplete
 setopt globdots
+setopt EXTENDED_GLOB
+setopt GLOB_COMPLETE
+setopt NO_CASE_GLOB
+setopt NUMERIC_GLOB_SORT
+
 unsetopt autoparamslash
 # Array expansion with parameters
 setopt rcexpandparam
@@ -56,8 +66,6 @@ setopt correct
 setopt magicequalsubst
 # hide error message if there is no match for the pattern
 setopt nonomatch
-# sort filenames numerically when it makes sense
-setopt numericglobsort 
 # enable command substitution in prompt
 setopt promptsubst     
 # Include job PID

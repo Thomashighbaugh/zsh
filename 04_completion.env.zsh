@@ -261,3 +261,64 @@ if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
 fi
 source "$fasd_cache"
 unset fasd_cache
+
+
+# case insensitive completion
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+zstyle ':completion:*' verbose yes
+zstyle ':completion:*:descriptions' format '%B%d%b'
+zstyle ':completion:*:messages' format '%d'
+zstyle ':completion:*:warnings' format 'No matches for: %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' completer _oldlist _expand _force_rehash _complete
+zstyle ':completion:*' completer _expand _force_rehash _complete _ignored
+
+# generate descriptions with magic.
+zstyle ':completion:*' auto-description 'specify: %d'
+
+# Don't prompt for a huge list, page it!
+zstyle ':completion:*:default' list-prompt '%S%M matches%s'
+
+# Don't prompt for a huge list, menu it!
+zstyle ':completion:*:default' menu 'select=0'
+
+# Have the newer files last so I see them first
+#zstyle ':completion:*' file-sort modification reverse
+
+# color code completion!!!!  Wohoo!
+zstyle ':completion:*' list-colors "=(#b) #([0-9]#)*=36=31"
+
+# Separate man page sections.  Neat.
+zstyle ':completion:*:manuals' separate-sections true
+
+zstyle ':completion:*' list-separator '»»'
+
+# complete with a menu for xwindow ids
+zstyle ':completion:*:windows' menu on=0
+zstyle ':completion:*:expand:*' tag-order all-expansions
+
+# Errors format
+zstyle ':completion:*:corrections' format '%B%d (errors %e)%b'
+
+# Don't complete stuff already on the line
+zstyle ':completion::*:(rm|vi):*' ignore-line true
+
+# Don't complete directory we are already in (../here)
+zstyle ':completion:*' ignore-parents parent pwd
+
+# make kill way awesome
+zstyle ':completion:*:processes' command 'ps -au$USER -o pid,time,cmd|grep -v "ps -au$USER -o pid,time,cmd"'
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)[ 0-9:]#([^ ]#)*=01;30=01;31=01;38'
+
+zstyle ':completion:*:*:git:*' script ~/code/git/contrib/completion/git-completion.bash
+
+# these are aliases
+
+compdef fressh=ssh
+compdef wrap-git=git
+compdef _git {gitk,qgit,grr}=git-log
+compdef _git gr=git-rebase
+compdef wrap-tar=tar
+
+compinit

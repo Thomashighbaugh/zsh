@@ -91,3 +91,24 @@ zle -N up-line-or-beginning-search
 zle -N down-line-or-beginning-search
 
 source /usr/share/fzf/key-bindings.zsh
+
+# Incremental search is elite!
+bindkey -M vicmd "/" history-incremental-search-backward
+bindkey -M vicmd "?" history-incremental-search-forward
+
+# Search based on what you typed in already
+bindkey -M vicmd "//" history-beginning-search-backward
+bindkey -M vicmd "??" history-beginning-search-forward
+
+autoload -U select-word-style
+autoload -U forward-word-match
+autoload -U backward-word-match
+
+zstyle ':zle:*-word-shell' word-style shell
+
+zle -N forward-word-shell forward-word-match
+zle -N backward-word-shell backward-word-match
+
+bindkey -M vicmd '^w' forward-word-shell
+bindkey -M vicmd '^b' backward-word-shell
+
