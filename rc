@@ -2,6 +2,7 @@
 ## ZSHRC
 ## File is pointed to by .zshrc from default location, loads plugins
 
+# Create a variable storing the location the script is in...portably 
 mydir=$(dirname "$0")
 
 autoload -Uz compinit
@@ -11,11 +12,13 @@ autoload -Uz colors
 colors
 
 for f in $mydir/??_*.plugin.zsh; do
-    source "$f"
+	source "$f"
 done
 
-for f in /usr/share/zsh/plugins/**/*.zsh; do
-    . "$f"
-done
+if [[ -f /usr/share/zsh/plugins/**/*.zsh ]]; then
+	for f in /usr/share/zsh/plugins/**/*.zsh; do
+		. "$f" &>/dev/null
+	done
+fi
 
 source "$HOME"/.profile
