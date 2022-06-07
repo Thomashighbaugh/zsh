@@ -61,7 +61,7 @@ function precmd {
 }
 
 vcs='$vcs_info_msg_0_'
-RPROMPT="%{$fg_bold[white]%}ॐ \$(date)%{$reset_color%}"
+RPROMPT="%{$fg_bold[green]%}ॐ%{$reset_color%} %{$fg_bold[white]%}  \$(date)%{$reset_color%}"
 
 function lprompt {
   local vimode='${PR_VIMODE}'

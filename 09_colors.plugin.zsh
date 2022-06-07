@@ -1,234 +1,201 @@
+#!/bin/zsh
 ## Inspired by Christian Ludwig's 256-colors-plugin
 ## https://github.com/chrissicool/zsh-256color
-###########################################################################
-###########################################################################
-###########################################################################
-_zsh_256color_debug()
-{
-	[[ -n "${ZSH_256COLOR_DEBUG}" ]] && echo "zsh-256color: $@" >&2
+## And ZPM's color plugin
+## https://github.com/zpm-zsh/colors/blob/master/colors.plugin.zsh
+# --------------------------------------------------- #
+# --------------------------------------------------- #
+
+if [[ -z "$NO_COLOR" && "$CLICOLOR" != 0 ]]; then
+  export CLICOLOR=1
+  typeset -Ag c
+  c=(
+    reset '[0m'
+
+    bold '[1m'
+    dim '[2m'
+    coursive '[3m'
+    underline '[4m'
+    blink '[5m'
+    inverse '[7m'
+    hidden '[8m'
+    strike '[9m'
+    double_underline '[4;21m'
+    overline '[53m'
+
+    reset_text '[22m'
+    no_coursive '[23m'
+    no_underline '[24m'
+    no_blink '[25m'
+    no_inverse '[27m'
+    no_hidden '[28m'
+    no_strike '[29m'
+
+    default '[39m'
+    base3 '[30m'
+    black '[30m' # Do not use this. Just for compatibility
+    red '[31m'
+    green '[32m'
+    yellow '[33m'
+    blue '[34m'
+    magenta '[35m'
+    cyan '[36m'
+    base0 '[37m'
+    white '[37m' # Do not use this. Just for compatibility
+
+    base2 '[30;90m'
+    grey '[30;90m' # Do not use this. Just for compatibility
+    light_red '[31;91m'
+    light_green '[32;92m'
+    light_yellow '[33;93m'
+    light_blue '[34;94m'
+    light_magenta '[35;95m'
+    light_cyan '[36;96m'
+    base1 '[37;97m'
+    light_grey '[37;97m' # Do not use this. Just for compatibility
+
+    bg_default '[49m'
+    bg_base3 '[40m'
+    bg_black '[40m'
+    bg_red '[41m'
+    bg_green '[42m'
+    bg_yellow '[43m'
+    bg_blue '[44m'
+    bg_magenta '[45m'
+    bg_cyan '[46m'
+    bg_base0 '[47m'
+    bg_white '[47m'
+
+    bg_base2 '[40;100m'
+    bg_grey '[40;100m'
+    bg_light_red '[41;101m'
+    bg_light_green '[42;102m'
+    bg_light_yellow '[43;103m'
+    bg_light_blue '[44;104m'
+    bg_light_magenta '[45;105m'
+    bg_light_cyan '[46;106m'
+    bg_base1 '[47;107m'
+    bg_light_grey '[47;107m'
+
+    \
+    raw_reset '0'
+
+    raw_bold '1'
+    raw_dim '2'
+    raw_coursive '3'
+    raw_underline '4'
+    raw_blink '5'
+    raw_inverse '7'
+    raw_hidden '8'
+    raw_strike '9'
+    raw_double_underline '4;21'
+    raw_overline '53'
+
+    raw_reset_text '22'
+    raw_no_coursive '23'
+    raw_no_underline '24'
+    raw_no_blink '25'
+    raw_no_inverse '27'
+    raw_no_hidden '28'
+    raw_no_strike '29'
+
+    raw_default '39'
+    raw_base3 '30'
+    raw_black '30' # Do not use this. Just for compatibility
+    raw_red '31'
+    raw_green '32'
+    raw_yellow '33'
+    raw_blue '34'
+    raw_magenta '35'
+    raw_cyan '36'
+    raw_base0 '37'
+    raw_white '37' # Do not use this. Just for compatibility
+
+    raw_base2 '30;90'
+    raw_grey '30;90' # Do not use this. Just for compatibility
+    raw_light_red '31;91'
+    raw_light_green '32;92'
+    raw_light_yellow '33;93'
+    raw_light_blue '34;94'
+    raw_light_magenta '35;95'
+    raw_light_cyan '36;96'
+    raw_base1 '37;97'
+    raw_light_grey '37;97' # Do not use this. Just for compatibility
+
+    raw_bg_default '49'
+    raw_bg_base3 '40'
+    raw_bg_black '40'
+    raw_bg_red '41'
+    raw_bg_green '42'
+    raw_bg_yellow '43'
+    raw_bg_blue '44'
+    raw_bg_magenta '45'
+    raw_bg_cyan '46'
+    raw_bg_base0 '47'
+    raw_bg_white '47'
+
+    raw_bg_base2 '40;100'
+    raw_bg_grey '40;100'
+    raw_bg_light_red '41;101'
+    raw_bg_light_green '42;102'
+    raw_bg_light_yellow '43;103'
+    raw_bg_light_blue '44;104'
+    raw_bg_light_magenta '45;105'
+    raw_bg_light_cyan '46;106'
+    raw_bg_base1 '47;107'
+    raw_bg_light_grey '47;107'
+  )
+else
+  export CLICOLOR=0
+  export NO_COLOR=1
+fi
+
+# --------------------------------------------------- #
+# --------------------------------------------------- #
+# --------------------------------------------------- #
+# Set 256color terminal mode if available.
+
+_zsh_256color_debug() {
+  [[ -n "${ZSH_256COLOR_DEBUG}" ]] && echo "zsh-256color: $@" >&2
 }
-###########################################################################
-###########################################################################
-###########################################################################
-_zsh_terminal_set_256color()
-{
-	if [[ "$TERM" =~ "-256color$" ]] ; then
-		_zsh_256color_debug "256 color terminal already set."
-		return
-	fi
-###########################################################################
-###########################################################################
-###########################################################################
-	local TERM256="${TERM}-256color"
-###########################################################################
-###########################################################################
-###########################################################################
-	# Use (n-)curses binaries, if installed.
-	if [[ -x "$( which toe )" ]] ; then
-		if toe -a | egrep "^$TERM256" >/dev/null ; then
-			_zsh_256color_debug "Found $TERM256 from (n-)curses binaries."
-			export TERM="$TERM256"
-			return
-		fi
-	fi
-###########################################################################
-###########################################################################
-###########################################################################
-	# Search through termcap descriptions, if binaries are not installed.
-	for termcaps in $TERMCAP "$HOME/.termcap" "/etc/termcap" "/etc/termcap.small" ; do
-		if [[ -e "$termcaps" ]] && egrep -q "(^$TERM256|\|$TERM256)\|" "$termcaps" ; then
-			_zsh_256color_debug "Found $TERM256 from $termcaps."
-			export TERM="$TERM256"
-			return
-		fi
-	done
-###########################################################################
-###########################################################################
-###########################################################################
-	# Search through terminfo descriptions, if binaries are not installed.
-	for terminfos in $TERMINFO "$HOME/.terminfo" "/etc/terminfo" "/lib/terminfo" "/usr/share/terminfo" ; do
-		if [[ -e "$terminfos"/$TERM[1]/"$TERM256" || \
-				-e "$terminfos"/"$TERM256" ]] ; then
-			_zsh_256color_debug "Found $TERM256 from $terminfos."
-			export TERM="$TERM256"
-			return
-		fi
-	done
+
+_zsh_terminal_set_256color() {
+  if [[ "$TERM" =~ "-256color$" ]]; then
+    _zsh_256color_debug "256 color terminal already set."
+    return
+  fi
+
+  local TERM256="${TERM}-256color"
+
+  # Use (n-)curses binaries, if installed.
+  if [[ -x "$(which toe)" ]]; then
+    if toe -a | egrep "^$TERM256" >/dev/null; then
+      _zsh_256color_debug "Found $TERM256 from (n-)curses binaries."
+      export TERM="$TERM256"
+      return
+    fi
+  fi
+
+  # Search through termcap descriptions, if binaries are not installed.
+  for termcaps in $TERMCAP "$HOME/.termcap" "/etc/termcap" "/etc/termcap.small"; do
+    if [[ -e "$termcaps" ]] && egrep -q "(^$TERM256|\|$TERM256)\|" "$termcaps"; then
+      _zsh_256color_debug "Found $TERM256 from $termcaps."
+      export TERM="$TERM256"
+      return
+    fi
+  done
+
+  # Search through terminfo descriptions, if binaries are not installed.
+  for terminfos in $TERMINFO "$HOME/.terminfo" "/etc/terminfo" "/lib/terminfo" "/usr/share/terminfo"; do
+    if [[ -e "$terminfos"/$TERM[1]/"$TERM256" ||
+      -e "$terminfos"/"$TERM256" ]]; then
+      _zsh_256color_debug "Found $TERM256 from $terminfos."
+      export TERM="$TERM256"
+      return
+    fi
+  done
 }
-###########################################################################
-###########################################################################
-###########################################################################
+
 _zsh_terminal_set_256color
 unset -f _zsh_terminal_set_256color
 unset -f _zsh_256color_debug
-###########################################################################
-###########################################################################
-###########################################################################
-
-# Standarized $0 handling, following:
-# https://github.com/zdharma/Zsh-100-Commits-Club/blob/master/Zsh-Plugin-Standard.adoc
-0="${ZERO:-${${0:#$ZSH_ARGZERO}:-${(%):-%N}}}"
-0="${${(M)0:#/*}:-$PWD/$0}"
-
-if [[ $PMSPEC != *b* ]] {
-  PATH=$PATH:"${0:h}/bin"
-}
-
-DEPENDENCES_ARCH+=( grc )
-DEPENDENCES_DEBIAN+=( grc )
-
-export LESS="$LESS -R -M"
-
-function ip() {
-  command ip --color=auto "$@"
-}
-
-function grep() {
-  command grep --colour=auto "$@"
-}
-
-function egrep() {
-  command egrep --colour=auto "$@"
-}
-
-function fgrep() {
-  command fgrep --colour=auto "$@"
-}
-
-if (( $+commands[diff-so-fancy] )); then
-  function diff() {
-    command diff "$@" | diff-so-fancy
-  }
-elif (( $+commands[delta] )); then
-  function diff() {
-    command diff "$@" | delta
-  }
-else
-  function diff() {
-    command diff --color "$@"
-  }
-fi
-
-if (( $+commands[grc] )); then
-  function env() {
-    command grc --colour=auto env "$@"
-  }
-
-  function lsblk() {
-    command grc --colour=auto lsblk "$@"
-  }
-
-  function df() {
-    command grc --colour=auto df -h "$@"
-  }
-
-  function du() {
-    command grc --colour=auto du -h "$@"
-  }
-
-  function free() {
-    command grc --colour=auto free -h "$@"
-  }
-
-  function as() {
-    command grc --colour=auto as "$@"
-  }
-
-  if (( $+commands[dig] )); then
-    function dig() {
-      command grc --colour=auto dig "$@"
-    }
-  fi
-
-  if (( $+commands[gas] )); then
-    function gas() {
-      command grc --colour=auto gas "$@"
-    }
-  fi
-
-  if (( $+commands[gcc] )); then
-    function gcc() {
-      command grc --colour=auto gcc "$@"
-    }
-  fi
-
-  if (( $+commands[g++] )); then
-    function "g++"(){
-      command grc --colour=auto g++ "$@"
-    }
-  fi
-
-  if (( $+commands[last] )); then
-    function last() {
-      command grc --colour=auto last "$@"
-    }
-  fi
-
-  if (( $+commands[ld] )); then
-    function ld() {
-      command grc --colour=auto ld "$@"
-    }
-  fi
-
-  if (( $+commands[ifconfig] )); then
-    function ifconfig() {
-      command grc --colour=auto ifconfig "$@"
-    }
-  fi
-
-  if (( $+commands[mount] )); then
-    function mount() {
-      command grc --colour=auto mount "$@"
-    }
-  fi
-
-  if (( $+commands[mtr] )); then
-    function mtr() {
-      command grc --colour=auto mtr "$@"
-    }
-  fi
-
-  if (( $+commands[netstat] )); then
-    function netstat() {
-      command grc --colour=auto netstat "$@"
-    }
-  fi
-
-  if (( $+commands[ping] )); then
-    function ping() {
-      command grc --colour=auto ping "$@"
-    }
-  fi
-
-  if (( $+commands[ping6] )); then
-    function ping6() {
-      command grc --colour=auto ping6 "$@"
-    }
-  fi
-
-  if (( $+commands[ps] )); then
-    function ps() {
-      command grc --colour=auto ps "$@"
-    }
-  fi
-
-  if (( $+commands[traceroute] )); then
-    function traceroute() {
-      command grc --colour=auto traceroute "$@"
-    }
-  fi
-else
-  function df() {
-    command df -h "$@"
-  }
-
-  function du() {
-    command du -h "$@"
-  }
-
-  function free() {
-    command free -h "$@"
-  }
-fi
-
-

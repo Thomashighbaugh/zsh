@@ -1,11 +1,16 @@
+#!/bin/zsh
+# ------------------------------------------------- #
+# Create variable representing this directory
 mydir=$(dirname $0)
-
+# ------------------------------------------------- #
+# Load configurations for all shells (aliases, functions, etc)
 source "$HOME"/.profile
-
+# ------------------------------------------------- #
+# Load autoload options
 autoload -U zrecompile
-
-
-  for f in $mydir/??_*.env.zsh; do
-    zrecompile -pq "$f"
-    source $f
-  done
+# ------------------------------------------------- #\
+# Load all environment options and variables
+for f in $mydir/??_*.env.zsh; do
+ # zrecompile -pq "$f"
+  source "$f"
+done
