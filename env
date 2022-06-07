@@ -1,8 +1,11 @@
 mydir=$(dirname $0)
 
-for f in $mydir/??_*.env.zsh; do
-    source $f
-done
-
-
 source "$HOME"/.profile
+
+autoload -U zrecompile
+
+
+  for f in $mydir/??_*.env.zsh; do
+    zrecompile -pq "$f"
+    source $f
+  done
