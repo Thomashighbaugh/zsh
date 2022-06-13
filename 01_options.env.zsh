@@ -11,11 +11,11 @@ setopt nobeep
 setopt autocd
 setopt autoremoveslash
 setopt cdablevars
-# Make cd = pushd 
-setopt AUTO_PUSHD 
+# Make cd = pushd
+setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
 setopt PUSHD_MINUS
-# Completion Options 
+# Completion Options
 setopt menucomplete
 setopt globdots
 setopt EXTENDED_GLOB
@@ -67,13 +67,15 @@ setopt magicequalsubst
 # hide error message if there is no match for the pattern
 setopt nonomatch
 # enable command substitution in prompt
-setopt promptsubst     
+setopt promptsubst
 # Include job PID
-setopt longlistjobs   
- # Automatically list choices on ambiguous completion 
-setopt auto_list      
+setopt longlistjobs
+# Automatically list choices on ambiguous completion
+setopt auto_list
 
 unsetopt bgnice
+
+WORDCHARS=${WORDCHARS//\//} # Don't consider certain characters part of the word
 ###########################################################################
 ####################################################################
 ###########################################################################

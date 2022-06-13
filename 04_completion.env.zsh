@@ -6,14 +6,16 @@ setopt correctall      # Always Make Suggestions
 setopt numericglobsort # Sort filenames numerically when it makes sense
 setopt extendedglob    # Extended globbing. Allows using regular expressions with *
 setopt nocaseglob
-setopt always_to_end # Move cursor to end if word had one match
-unsetopt menu_complete   # do not autoselect the first completion entry
+setopt always_to_end   # Move cursor to end if word had one match
+unsetopt menu_complete # do not autoselect the first completion entry
 unsetopt flowcontrol
-setopt auto_menu         # show completion menu on succesive tab press
+setopt auto_menu # show completion menu on succesive tab press
 autoload -Uz compinit
-
-source /usr/share/fzf/completion.zsh
-
+zle
+zmodload -i zsh/complist
+if [ -f "/usr/share/fzf/completion.zsh" ]; then
+    source /usr/share/fzf/completion.zsh
+fi
 typeset -i updated_at=$(
     date +'%j' -r ~/.zcompdump 2>/dev/null || stat -f '%Sm' -t '%j' ~/.zcompdump 2>/dev/null
 )
@@ -23,8 +25,6 @@ if [ $(date +'%j') != $updated_at ]; then
 else
     compinit -C -i
 fi
-
-zmodload -i zsh/complist
 
 ################################################################################
 ## Completion Styles ###########################################################
@@ -60,16 +60,16 @@ zstyle ':completion:*:processes' command 'ps -o pid,s,nice,stime,args'
 
 # Filename suffixes to ignore during completion (except after rm command)
 zstyle ':completion:*:*:(^rm):*:*files' ignored-patterns '*?.o' '*?.c~' \
-'*?.old' '*?.pro'
+    '*?.old' '*?.pro'
 # the same for old style completion
 fignore=(.o .c~ .old .pro)
 
 # ignore completion functions (until the _ignored completer)
 zstyle ':completion:*:functions' ignored-patterns '_*'
 zstyle ':completion:*:*:*:users' ignored-patterns \
-admb apache bin daemon games gdm halt ident junkbust lp mail mailnull \
-named news nfsnobody nobody nscd ntp operator pcap postgres radvd \
-rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs avahi-autoipd avahi backup messagebus beagleindex debian-tor dhcp dnsmasq fetchmail firebird gnats haldaemon hplip irc klog list man cupsys postfix proxy syslog www-data mldonkey sys snort
+    admb apache bin daemon games gdm halt ident junkbust lp mail mailnull \
+    named news nfsnobody nobody nscd ntp operator pcap postgres radvd \
+    rpc rpcuser rpm shutdown squid sshd sync uucp vcsa xfs avahi-autoipd avahi backup messagebus beagleindex debian-tor dhcp dnsmasq fetchmail firebird gnats haldaemon hplip irc klog list man cupsys postfix proxy syslog www-data mldonkey sys snort
 
 zstyle ':completion:*' rehash true # automatically find new executables in path
 
@@ -77,19 +77,17 @@ zstyle ':completion:*' rehash true # automatically find new executables in path
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zcache
-#compdef _changie changie
-
+compdef _changie changie
 
 # --------------------------------------------------- #
 # --------------------------------------------------- #
 # --------------------------------------------------- #
 fasd_cache="$HOME/.fasd-init"
 if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-    fasd --init auto >| "$fasd_cache"
+    fasd --init auto >|"$fasd_cache"
 fi
 source "$fasd_cache"
 unset fasd_cache
-
 
 # case insensitive completion
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
@@ -100,7 +98,6 @@ zstyle ':completion:*:messages' format '%d'
 zstyle ':completion:*:warnings' format 'No matches for: %d'
 zstyle ':completion:*' group-name ''
 zstyle ':completion:*' completer _oldlist _expand _force_rehash _complete
-zstyle ':completion:*' completer _expand _force_rehash _complete _ignored
 
 # generate descriptions with magic.
 zstyle ':completion:*' auto-description 'specify: %d'
@@ -141,12 +138,5 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)[ 0-9:]#([
 
 zstyle ':completion:*:*:git:*' script ~/code/git/contrib/completion/git-completion.bash
 
-# these are aliases
-
-compdef fressh=ssh
-compdef wrap-git=git
-compdef _git {gitk,qgit,grr}=git-log
-compdef _git gr=git-rebase
-compdef wrap-tar=tar
-
-compinit
+# load bash completions too
+autoload -U +X bashcompinit && bashcompinit
