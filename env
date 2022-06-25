@@ -11,6 +11,5 @@ autoload -U zrecompile
 # ------------------------------------------------- #\
 # Load all environment options and variables
 for f in $mydir/??_*.env.zsh; do
- # zrecompile -pq "$f"
   source "$f"
 done
