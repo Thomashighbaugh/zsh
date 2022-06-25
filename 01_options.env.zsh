@@ -66,6 +66,7 @@ setopt correct
 setopt magicequalsubst
 # hide error message if there is no match for the pattern
 setopt nonomatch
+
 # enable command substitution in prompt
 setopt promptsubst
 # Include job PID

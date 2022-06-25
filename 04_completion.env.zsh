@@ -97,7 +97,7 @@ zstyle ':completion:*:descriptions' format '%B%d%b'
 zstyle ':completion:*:messages' format '%d'
 zstyle ':completion:*:warnings' format 'No matches for: %d'
 zstyle ':completion:*' group-name ''
-zstyle ':completion:*' completer _oldlist _expand _force_rehash _complete
+zstyle ':completion:*' completer _oldlist _expand
 
 # generate descriptions with magic.
 zstyle ':completion:*' auto-description 'specify: %d'
