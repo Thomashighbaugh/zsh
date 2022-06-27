@@ -1,24 +1,28 @@
 autoload -U history-search-end
 
-HISTFILE=~/.zsh_history
-HISTSIZE=1000
-SAVEHIST=2000
+HISTFILE=$HOME/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
 
-setopt extended_history       # Extends history functionality
-setopt hist_expire_dups_first # Duplicates Expire First
-setopt hist_find_no_dups      # Don't show duplicates
+while read -r opt; do
+    setopt $opt
 
-setopt hist_expire_dups_first # delete duplicates first when HISTFILE size exceeds HISTSIZE
-setopt hist_verify            # show command with history expansion to user before running it
-
-setopt HIST_EXPIRE_DUPS_FIRST
-setopt HIST_FIND_NO_DUPS
-setopt HIST_IGNORE_SPACE  # If a line starts with a space, don't save it.
-setopt hist_reduce_blanks # Remove superfluous blanks from history items
-setopt inc_append_history # Save history entries as soon as they are entered
-setopt share_history      # Share history between different instances of the shell
-setopt HIST_VERIFY        # When using a hist thing, make a newline show the change before executing it.
-setopt SHARE_HISTORY      # Killer: share history between multiple shells
+done <<-EOF
+ EXTENDED_HISTORY     
+ HIST_EXPIRE_DUPS_FIRST 
+ HIST_FIND_NO_DUPS
+ HIST_FIND_NO_DUPS  
+ HIST_NO_FUNCTIONS
+ HIST_IGNORE_ALL_DUPS
+ HIST_IGNORE_SPACE  
+ HIST_REDUCE_BLANKS 
+ HIST_SAVE_NO_DUPS
+ HIST_VERIFY        
+ HIST_VERIFY            
+ INC_APPEND_HISTORY 
+ SHARE_HISTORY   
+ SHARE_HISTORY      
+EOF
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down

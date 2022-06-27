@@ -1,18 +1,37 @@
 # Files to ignore during completion
 fignore=(DS_Store $fignore)
-
-setopt correct         # Enable Corrections
-setopt correctall      # Always Make Suggestions
-setopt numericglobsort # Sort filenames numerically when it makes sense
-setopt extendedglob    # Extended globbing. Allows using regular expressions with *
-setopt nocaseglob
-setopt always_to_end   # Move cursor to end if word had one match
-unsetopt menu_complete # do not autoselect the first completion entry
-unsetopt flowcontrol
-setopt auto_menu # show completion menu on succesive tab press
+# --------------------------------------------------- #
+while read -r opt; do
+    setopt $opt
+done <<-EOF
+ALWAYS_TO_END
+AUTO_MENU
+COMPLETE_IN_WORD
+COMPLETEINWORD
+CORRECT
+CORRECTALL
+EXTENDEDGLOB
+GLOB_COMPLETE
+GLOBDOTS
+NOCASEGLOB
+NO_CASE_GLOB
+NOFLOWCONTROL
+NUMERICGLOBSORT
+NUMERIC_GLOB_SORT
+EOF
+# --------------------------------------------------- #
+while read -r opt; do
+    unsetopt $opt
+done <<-EOF
+FLOWCONTROL
+MENU_COMPLETE
+NOMATCH
+EOF
+# --------------------------------------------------- #
 autoload -Uz compinit
 zle
 zmodload -i zsh/complist
+
 if [ -f "/usr/share/fzf/completion.zsh" ]; then
     source /usr/share/fzf/completion.zsh
 fi
@@ -26,10 +45,9 @@ else
     compinit -C -i
 fi
 
-################################################################################
-## Completion Styles ###########################################################
-################################################################################
-
+# --------------------------------------------------- #
+# ---------------- Completion Styles ---------------- #
+# --------------------------------------------------- #
 zstyle ':completion:*' list-prompt '%SAt %p: Hit TAB for more, or the character to insert%s'
 zstyle ':completion:*' menu select
 zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
